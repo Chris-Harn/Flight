@@ -28,4 +28,9 @@
     <None Include="Resource\Shaders\FastBlitTextToScreen.glsl" />
     <None Include="Resource\Shaders\DrawMesh.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

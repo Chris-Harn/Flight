@@ -1,13 +1,14 @@
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
 
-class Window;
 class Camera;
-class TextRenderer;
 class Quad;
 class Shader;
 class Mesh;
-class Timer;
+
+#include "OpenGL/Window.h"
+#include "OpenGL/TextRenderer.h"
+#include "Timer.h"
 
 class Engine {
 public:
@@ -29,6 +30,7 @@ private:
     
     static Engine *s_pInstance;
 
+public:
     // Simple Controls
     bool m_bRunning;
     bool m_bDisplayText;
