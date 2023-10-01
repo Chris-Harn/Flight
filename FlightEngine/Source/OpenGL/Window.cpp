@@ -99,6 +99,12 @@ bool Window::Initialization( unsigned int width,
     // Handle Keys
     CreateCallbacks();
 
+    // Setup camera for depth buffering
+    glEnable( GL_DEPTH_TEST );
+    glDepthMask( GL_TRUE );
+    glDepthFunc( GL_LEQUAL );
+    glDepthRange( 0.0f, 1.0f );
+
     return true;
 }
 
@@ -118,6 +124,7 @@ void Window::CreateCallbacks() {
 
 void Window::ClearColorBuffer() {
     glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+    glClearDepth( 1.0f );
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
 

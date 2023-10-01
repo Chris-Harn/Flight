@@ -183,7 +183,7 @@ bool Engine::Init( const char *title, int windowWidth, int windowHeight, bool fu
     }
     m_pTerran3->CreateMesh( vertices3, indices3, 12, 6 );
     m_pTerran3->m_model = glm::mat4( 1.0f );
-    m_pTerran3->m_model = glm::translate( m_pTerran3->m_model, glm::vec3( 0.0f, -20.0f, 0.0f ) );
+    m_pTerran3->m_model = glm::translate( m_pTerran3->m_model, glm::vec3( 0.0f, -5.0f, 0.0f ) );
     m_pTerran3->m_model = glm::scale( m_pTerran3->m_model, glm::vec3( 1000.0f, 1000.0f, 1000.0f ) );
 
     return true;
