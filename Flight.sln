@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33130.400
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{3F6A6992-4073-4F25-B6CD-463E16381102}"
+	ProjectSection(ProjectDependencies) = postProject
+		{72660CA9-DAF2-4D7A-A786-115CA424B854} = {72660CA9-DAF2-4D7A-A786-115CA424B854}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlightEngine", "FlightEngine\FlightEngine.vcxproj", "{72660CA9-DAF2-4D7A-A786-115CA424B854}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F6A6992-4073-4F25-B6CD-463E16381102}.Debug|x64.ActiveCfg = Debug|x64
+		{3F6A6992-4073-4F25-B6CD-463E16381102}.Debug|x64.Build.0 = Debug|x64
+		{3F6A6992-4073-4F25-B6CD-463E16381102}.Release|x64.ActiveCfg = Release|x64
+		{3F6A6992-4073-4F25-B6CD-463E16381102}.Release|x64.Build.0 = Release|x64
+		{72660CA9-DAF2-4D7A-A786-115CA424B854}.Debug|x64.ActiveCfg = Debug|x64
+		{72660CA9-DAF2-4D7A-A786-115CA424B854}.Debug|x64.Build.0 = Debug|x64
+		{72660CA9-DAF2-4D7A-A786-115CA424B854}.Release|x64.ActiveCfg = Release|x64
+		{72660CA9-DAF2-4D7A-A786-115CA424B854}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9563DBC0-840A-4E02-9348-DF11479D768E}
+	EndGlobalSection
+EndGlobal
