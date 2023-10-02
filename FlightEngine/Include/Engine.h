@@ -1,12 +1,12 @@
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
 
-class Camera;
 class Quad;
 class Shader;
 class Mesh;
 
 #include "OpenGL/Window.h"
+#include "OpenGL/Camera.h"
 #include "OpenGL/TextRenderer.h"
 #include "Timer.h"
 
@@ -43,13 +43,6 @@ public:
 
     // Engine Items
     Timer *m_pTimer;
-
-    // Temp OpenGL Resources
-    Mesh *m_pTerran;
-    Mesh *m_pTerran2;
-    Mesh *m_pTerran3;
-    //Shader *m_pBlitImageToScreenShader;
-    //Shader *m_pBlitTextToScreenShader;
 };
 
 typedef Engine TheEngine;
