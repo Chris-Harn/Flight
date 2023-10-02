@@ -62,8 +62,8 @@ void Camera::KeyControl( bool *keys, GLfloat deltaTime ) {
 }
 
 void Camera::MouseControl( GLfloat xChange, GLfloat yChange ) {
-    xChange *= m_turnSpeed;
-    yChange *= m_turnSpeed;
+    xChange *= m_turnSpeed * 0.7f;
+    yChange *= m_turnSpeed * 0.3f;
 
     m_yaw += xChange;
     m_pitch += yChange;
@@ -77,7 +77,6 @@ void Camera::MouseControl( GLfloat xChange, GLfloat yChange ) {
 glm::mat4 Camera::CalculateViewMatrix() {
     return glm::lookAt( m_position, m_position + m_front, m_up );
 }
-
 
 void Camera::Update() {
     m_front.x = cos( glm::radians( m_yaw ) ) * cos( glm::radians( m_pitch ) );

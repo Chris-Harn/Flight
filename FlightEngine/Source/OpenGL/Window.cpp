@@ -99,11 +99,18 @@ bool Window::Initialization( unsigned int width,
     // Handle Keys
     CreateCallbacks();
 
+    // Enable mouse control
+    glfwSetInputMode( m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED );
+    glfwSetWindowUserPointer( m_pWindow, this );
+
     // Setup camera for depth buffering
     glEnable( GL_DEPTH_TEST );
     glDepthMask( GL_TRUE );
     glDepthFunc( GL_LEQUAL );
     glDepthRange( 0.0f, 1.0f );
+
+    // Enable backface culling
+    glEnable( GL_CULL_FACE );
 
     return true;
 }
@@ -117,9 +124,7 @@ void Window::CreateCallbacks() {
     glfwSetKeyCallback( m_pWindow, HandleKeys );
     glfwSetInputMode( m_pWindow, GLFW_STICKY_KEYS, 1 );
 
-    //// Setup GLFW callback to notify when someone tries to
-    //// close the window
-    //glfwSetWindowCloseCallback( m_pWindow, window_close_callback );
+    glfwSetCursorPosCallback( m_pWindow, HandleMouse );
 }
 
 void Window::ClearColorBuffer() {
@@ -197,17 +202,6 @@ void Window::HandleMouse( GLFWwindow *window, double xPos, double yPos ) {
 
     theWindow->m_lastX = xPos;
     theWindow->m_lastY = yPos;    
-    if( theWindow->m_bMouseFirstMove ) {
-        theWindow->m_lastX = xPos;
-        theWindow->m_lastY = yPos;
-        theWindow->m_bMouseFirstMove = false;
-    }
-
-    theWindow->m_xChange = xPos - theWindow->m_lastX;
-    theWindow->m_yChange = theWindow->m_lastY - yPos;
-    
-    theWindow->m_lastX = xPos;
-    theWindow->m_lastY = yPos;
 }
 
 bool Window::IsKeyUp( int key ) {

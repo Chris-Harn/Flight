@@ -50,7 +50,7 @@ bool Engine::Init( const char *title, int windowWidth, int windowHeight, bool fu
         return false;
     }
 
-    try { m_pCamera = new Camera( glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3( 0.0f, 1.0f, 0.0f ), -90.0f, 0.0f, 0.8f, 10.0f ); }
+    try { m_pCamera = new Camera( glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3( 0.0f, 1.0f, 0.0f ), -90.0f, 0.0f, 0.8f, 2.0 ); }
     catch( const std::bad_alloc &e ) {
         (void)e;
         print_error_message( "ERROR: MEMORY ALLOCATION: Camera failed to allocate on heap." );
