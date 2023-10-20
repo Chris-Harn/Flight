@@ -4,11 +4,9 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 
-
 #ifdef _DEBUG
     #include <stdio.h>
 #endif
-
 
 Window::Window() {
     m_pWindow = nullptr;
@@ -51,7 +49,7 @@ bool Window::Initialization( unsigned int width,
     // Core profile = No backwards compatibility and best performance
     glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
     // Allow forward compatiblity
-    //glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE );
+    glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE );
 
     // Lock current aspect ratio - Must be before window creation
     glfwWindowHint( GLFW_RESIZABLE, GL_FALSE );
@@ -102,14 +100,14 @@ bool Window::Initialization( unsigned int width,
     glfwSetInputMode( m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED );
     glfwSetWindowUserPointer( m_pWindow, this );
 
-    //// Setup camera for depth buffering
-    //glEnable( GL_DEPTH_TEST );
-    //glDepthMask( GL_TRUE );
-    //glDepthFunc( GL_LEQUAL );
-    //glDepthRange( 0.0f, 1.0f );
+    // Setup camera for depth buffering
+    glEnable( GL_DEPTH_TEST );
+    glDepthMask( GL_TRUE );
+    glDepthFunc( GL_LEQUAL );
+    glDepthRange( 0.0f, 1.0f );
 
-    //// Enable backface culling
-    //glEnable( GL_CULL_FACE );
+    // Enable backface culling
+    glEnable( GL_CULL_FACE );
 
     return true;
 }
@@ -128,7 +126,7 @@ void Window::CreateCallbacks() {
 
 void Window::ClearColorBuffer() {
     glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
-    glClearDepth( 0.0f );
+    glClearDepth( 1.0f );
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
 

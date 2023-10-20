@@ -34,7 +34,6 @@ Engine::Engine() {
     m_pTextRenderer = nullptr;
 
     m_pCamera = nullptr;
-    //m_pQuad = nullptr;
 }
 
 bool Engine::Init( const char *title, int windowWidth, int windowHeight, bool fullScreen ) {
@@ -57,13 +56,6 @@ bool Engine::Init( const char *title, int windowWidth, int windowHeight, bool fu
         return false;
     }
     m_pCamera->m_projection = glm::perspective( 45.0f, m_pMainWindow->GetBufferWidth() / m_pMainWindow->GetBufferHeight(), 0.1f, 100.0f );
-
-    //try { m_pQuad = new Quad(); }
-    //catch( const std::bad_alloc &e ) {
-    //    (void)e;
-    //    print_error_message( "ERROR: MEMORY ALLOCATION: Quad failed to allocate on heap." );
-    //    return false;
-    //}
 
     // Load Shaders, framebuffers, and other resources... 
     ResourceManager::LoadShader( "Resource/Shaders/CautionStrips.glsl", "CautionImage" ); // 0. Shader compile error
@@ -184,11 +176,7 @@ void Engine::Clean() {
         delete m_pCamera;
         m_pCamera = nullptr;
     }
-    //if( m_pQuad != nullptr ) {
-    //    m_pQuad->Clean();
-    //    delete m_pQuad;
-    //    m_pQuad = nullptr;
-    //}
+
     ResourceManager::Clean();
 
     CleanTempAssets();

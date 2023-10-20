@@ -39,7 +39,6 @@ public:
     Window *m_pMainWindow;
     TextRenderer *m_pTextRenderer;
     Camera *m_pCamera;
-    //Quad *m_pQuad;
 
     // Engine Items
     Timer *m_pTimer;
