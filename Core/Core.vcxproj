@@ -68,6 +68,16 @@
       <AdditionalDependencies>opengl32.lib;glfw3dll.lib;glew32.lib;freetype.lib;FlightEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)x64\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>echo "Copying over Resource Folder..."
+if not exist "$(TargetDir)Resource" mkdir "$(TargetDir)\Resource"
+del /s/q "$(TargetDir)Resource\*.*"
+xcopy "$(SolutionDir)Core\Resource\*.*" "$(TargetDir)\Resource\" /Y /I /E</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -88,6 +98,16 @@
       <AdditionalDependencies>opengl32.lib;glfw3dll.lib;glew32.lib;freetype.lib;FlightEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)x64\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>echo "Copying over Resource Folder..."
+if not exist "$(TargetDir)Resource" mkdir "$(TargetDir)\Resource"
+del /s/q "$(TargetDir)Resource\*.*"
+xcopy "$(SolutionDir)Core\Resource\*.*" "$(TargetDir)\Resource\" /Y /I /E</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -96,7 +116,8 @@
     <Font Include="Resource\Font\arial.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resource\Shaders\DrawMesh.glsl" />
+    <None Include="Resource\Shaders\Light.glsl" />
+    <None Include="Resource\Shaders\SimpleLight.glsl" />
     <None Include="Resource\Shaders\FastBlitTextToScreen.glsl" />
     <None Include="Resource\Shaders\BlitImageToScreen.glsl" />
     <None Include="Resource\Shaders\CautionStrips.glsl" />

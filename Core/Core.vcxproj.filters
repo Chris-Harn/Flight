@@ -26,7 +26,8 @@
     <None Include="Resource\Shaders\BlitImageToScreen.glsl" />
     <None Include="Resource\Shaders\CautionStrips.glsl" />
     <None Include="Resource\Shaders\FastBlitTextToScreen.glsl" />
-    <None Include="Resource\Shaders\DrawMesh.glsl" />
+    <None Include="Resource\Shaders\SimpleLight.glsl" />
+    <None Include="Resource\Shaders\Light.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">

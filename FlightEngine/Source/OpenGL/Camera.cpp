@@ -4,6 +4,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include <math.h>
+
 Camera::Camera() {
     m_position = glm::vec3( 0.0f );
     m_front = glm::vec3( 0.0f );
@@ -62,16 +64,25 @@ void Camera::KeyControl( bool *keys, GLfloat deltaTime ) {
 }
 
 void Camera::MouseControl( GLfloat xChange, GLfloat yChange ) {
-    xChange *= m_turnSpeed * 0.7f;
-    yChange *= m_turnSpeed * 0.3f;
+    static int count = 0;
 
-    m_yaw += xChange;
-    m_pitch += yChange;
+    // Mouse Acceleration addition
+    if( xChange != 0.0f || yChange != 0.0f ) {
+        count++;
 
-    if( m_pitch > 89.0f ) m_pitch = 89.0f;
-    if( m_pitch < -89.0f ) m_pitch = -89.0f;
+        xChange *= m_turnSpeed * 0.7f * float( 1.0f - exp( -1 * count ) );
+        yChange *= m_turnSpeed * 0.3f * float( 1.0f - exp( -1 * count ) );
 
-    Update();
+        m_yaw += xChange;
+        m_pitch += yChange;
+
+        if( m_pitch > 89.0f ) m_pitch = 89.0f;
+        if( m_pitch < -89.0f ) m_pitch = -89.0f;
+
+        Update();
+    } else {
+        count = 0;
+    }
 }
 
 glm::mat4 Camera::CalculateViewMatrix() {

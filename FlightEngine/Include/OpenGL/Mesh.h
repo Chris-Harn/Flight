@@ -10,14 +10,14 @@ public:
     Mesh();
     ~Mesh();
 
-    void CreateMesh( GLfloat *vertices, unsigned int *indices, unsigned int numOfVertices, unsigned int numOfIndices );
+    void CreateMesh( GLfloat *vertices, unsigned int numOfVertices );
     void RenderMesh();
     void Clean();
 
     glm::mat4 m_model; // Model Matrix
 
 private:
-    GLuint m_VAO, m_VBO, m_IBO;
+    GLuint m_VAO, m_VBO;
     GLsizei m_indexCount;
 };
 
