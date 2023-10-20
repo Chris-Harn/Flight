@@ -34,29 +34,29 @@ bool SetupTempAssets() {
     // Create a pyramid so we have something temporary to look at
     GLfloat vertices[] = {
         // Bottom Left Square, normals
+        -1.0f,  0.0f,  0.0f,  0.0f,  0.0f, -1.0f,
          0.0f,  0.0f, -1.0f,  0.0f,  0.0f, -1.0f,
          0.0f,  0.0f,  1.0f,  0.0f,  0.0f, -1.0f,
-        -1.0f,  0.0f,  0.0f,  0.0f,  0.0f, -1.0f,
         // Bottom Right Square
          0.0f,  0.0f, -1.0f,  0.0f,  0.0f, -1.0f,
          1.0f,  0.0f,  0.0f,  0.0f,  0.0f, -1.0f,
          0.0f,  0.0f,  1.0f,  0.0f,  0.0f, -1.0f,
         // Slope 1
-         0.0f,  0.0f,  1.0f,  0.5f,  0.7f,  0.5f,
-        -1.0f,  0.0f,  0.0f,  0.5f,  0.7f,  0.5f,
          0.0f,  1.0f,  0.0f,  0.5f,  0.7f,  0.5f,
+        -1.0f,  0.0f,  0.0f,  0.5f,  0.7f,  0.5f,
+         0.0f,  0.0f,  1.0f,  0.5f,  0.7f,  0.5f,
         // Slope 2
+         0.0f,  1.0f,  0.0f, -0.5f,  0.7f, -0.5f,
          0.0f,  0.0f, -1.0f, -0.5f,  0.7f, -0.5f,
         -1.0f,  0.0f,  0.0f, -0.5f,  0.7f, -0.5f,
-         0.0f,  1.0f,  0.0f, -0.5f,  0.7f, -0.5f,
         // Slope 3
-         0.0f,  0.0f, -1.0f,  0.5f,  0.7f, -0.5f,
-         1.0f,  0.0f,  0.0f,  0.5f,  0.7f, -0.5f,
          0.0f,  1.0f,  0.0f,  0.5f,  0.7f, -0.5f,
+         1.0f,  0.0f,  0.0f,  0.5f,  0.7f, -0.5f,
+         0.0f,  0.0f, -1.0f,  0.5f,  0.7f, -0.5f,
         // Slope 4
-         1.0f,  0.0f,  0.0f,  0.5f,  0.7f,  0.5f,
+         0.0f,  1.0f,  0.0f,  0.5f,  0.7f,  0.5f,
          0.0f,  0.0f,  1.0f,  0.5f,  0.7f,  0.5f,
-         0.0f,  1.0f,  0.0f,  0.5f,  0.7f,  0.5f
+         1.0f,  0.0f,  0.0f,  0.5f,  0.7f,  0.5f
     };
 
     try { m_pPyramid = new Mesh(); }
@@ -102,6 +102,8 @@ bool SetupTempAssets() {
         -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,   1.0f,
         -1.0f,  0.0f,  1.0f,  0.0f,  0.0f,   1.0f,
          1.0f,  0.0f, -1.0f,  0.0f,  0.0f,   1.0f,
+         1.0f,  0.0f, -1.0f,  0.0f,  0.0f,   1.0f,
+       - 1.0f,  0.0f,  1.0f,  0.0f,  0.0f,   1.0f,
          1.0f,  0.0f,  1.0f,  0.0f,  0.0f,   1.0f
     };
     try { m_pTerrain = new Mesh(); }
@@ -110,7 +112,7 @@ bool SetupTempAssets() {
         print_error_message( "ERROR: MEMORY ALLOCATION: Terran3 failed to allocate on heap." );
         return false;
     }
-    m_pTerrain->CreateMesh( vertices3, 24 );
+    m_pTerrain->CreateMesh( vertices3, 36 );
     m_pTerrain->m_model = glm::mat4( 1.0f );
     m_pTerrain->m_model = glm::translate( m_pTerrain->m_model, glm::vec3( 0.0f, -5.0f, 250.0f ) );
     m_pTerrain->m_model = glm::scale( m_pTerrain->m_model, glm::vec3( 1000.0f, 1000.0f, 1000.0f ) );

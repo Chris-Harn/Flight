@@ -139,6 +139,21 @@ void Engine::HandleEvents() {
         m_pMainWindow->ToggleWireFrame( false );
     }
 
+    // Toggle GL_CULL_FACE Mode on
+    static bool cullClockwiseTriangles = false;
+    if( m_pMainWindow->GetsKeys()[59] == true ) {
+        cullClockwiseTriangles = true;
+    }
+
+    // Toggle GL_CULL_FACE Mode off
+    if( m_pMainWindow->GetsKeys()[39] == true ) {
+        cullClockwiseTriangles = false;
+    }
+
+    if( cullClockwiseTriangles == true ) {
+        glEnable( GL_CULL_FACE );
+    }
+
     m_pCamera->KeyControl( m_pMainWindow->GetsKeys(), m_pTimer->GetDeltaTime() );
     m_pCamera->MouseControl( m_pMainWindow->GetXChange(), m_pMainWindow->GetYChange() );
 
