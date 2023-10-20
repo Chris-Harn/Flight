@@ -27,7 +27,7 @@ void Mesh::CreateMesh( GLfloat *vertices, unsigned int numOfVertices ) {
     glEnableVertexAttribArray( 0 ); // VertexPosition
 
     glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof( float ), (void *)0 );
-    glEnableVertexAttribArray( 0 ); // VertexNormal
+    glEnableVertexAttribArray( 1 ); // VertexNormal
 
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
     glBindVertexArray( 0 );

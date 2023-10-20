@@ -30,11 +30,13 @@ uniform vec3 u_lightPos;
 out vec4 FragColor;
 
 void main() {
+	// Diffuse Lighting
 	vec3 norm = normalize( Normal );
 	vec3 lightDir = normalize( u_lightPos - FragPos );
 	float diff = max( dot( norm, lightDir ), 0.0 );
 	vec3 diffuse = diff * u_lightColor;
 
+	// Ambient Lighting
 	float ambientStrength = 0.1;
 	vec3 ambient = ambientStrength * u_lightColor;
 

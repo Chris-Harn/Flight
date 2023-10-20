@@ -15,7 +15,7 @@
 /* These are temporary functions and assets that will eventually be removed.*/
 /* Same with the assets being global. */
 Mesh *m_pPyramid;
-//Mesh *m_pTerran2;
+Mesh *m_pTerrain;
 //Mesh *m_pTerran3;
 //Mesh *m_pLight;
 
@@ -25,7 +25,7 @@ void RenderTempAssets();
 
 bool SetupTempAssets() {
     m_pPyramid = nullptr;
-    //m_pTerran2 = nullptr;
+    m_pTerrain = nullptr;
     //m_pTerran3 = nullptr;
 
     ResourceManager::LoadShader( "Resource/Shaders/SimpleLight.glsl", "SimpleLight" );
@@ -98,22 +98,22 @@ bool SetupTempAssets() {
     //}
     //m_pLight->CreateMesh( vertices2, 48 );
 
-    //float vertices3[]{
-    //    -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,   1.0f,
-    //    -1.0f,  0.0f,  1.0f,  0.0f,  0.0f,   1.0f,
-    //     1.0f,  0.0f, -1.0f,  0.0f,  0.0f,   1.0f,
-    //     1.0f,  0.0f,  1.0f,  0.0f,  0.0f,   1.0f
-    //};
-    //try { m_pTerran3 = new Mesh(); }
-    //catch( const std::bad_alloc &e ) {
-    //    (void)e;
-    //    print_error_message( "ERROR: MEMORY ALLOCATION: Terran3 failed to allocate on heap." );
-    //    return false;
-    //}
-    //m_pTerran3->CreateMesh( vertices3, 24 );
-    //m_pTerran3->m_model = glm::mat4( 1.0f );
-    //m_pTerran3->m_model = glm::translate( m_pTerran3->m_model, glm::vec3( 0.0f, -5.0f, 0.0f ) );
-    //m_pTerran3->m_model = glm::scale( m_pTerran3->m_model, glm::vec3( 1000.0f, 1000.0f, 1000.0f ) );
+    float vertices3[]{
+        -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,   1.0f,
+        -1.0f,  0.0f,  1.0f,  0.0f,  0.0f,   1.0f,
+         1.0f,  0.0f, -1.0f,  0.0f,  0.0f,   1.0f,
+         1.0f,  0.0f,  1.0f,  0.0f,  0.0f,   1.0f
+    };
+    try { m_pTerrain = new Mesh(); }
+    catch( const std::bad_alloc &e ) {
+        (void)e;
+        print_error_message( "ERROR: MEMORY ALLOCATION: Terran3 failed to allocate on heap." );
+        return false;
+    }
+    m_pTerrain->CreateMesh( vertices3, 24 );
+    m_pTerrain->m_model = glm::mat4( 1.0f );
+    m_pTerrain->m_model = glm::translate( m_pTerrain->m_model, glm::vec3( 0.0f, -5.0f, 250.0f ) );
+    m_pTerrain->m_model = glm::scale( m_pTerrain->m_model, glm::vec3( 1000.0f, 1000.0f, 1000.0f ) );
 
     return true;
 }
@@ -130,12 +130,6 @@ void UpdateTempAssets() {
 }
 
 void RenderTempAssets() {
-    //ResourceManager::GetShader( "Light" )->SetMat4( "u_projection", TheEngine::Instance()->m_pCamera->m_projection, true );
-    //ResourceManager::GetShader( "Light" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix(), true );
-
-    //ResourceManager::GetShader( "Light" )->SetMat4( "u_model", m_pPyramid->m_model, true );
-    //ResourceManager::GetShader( "Light" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 0.0f, 0.0f ), true );
-
     ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_projection", TheEngine::Instance()->m_pCamera->m_projection, true );
     ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix(), true );
 
@@ -151,11 +145,11 @@ void RenderTempAssets() {
     //ResourceManager::GetShader( "SimpleLight" )->SetVec3( "lightPos", glm::vec3( 20.0, 40.0f, -70.0f ), true );
     //m_pTerran2->RenderMesh();
 
-    //ResourceManager::GetShader( "SimpleLight" )->SetMat4( "model", m_pTerran3->m_model, true );
-    //ResourceManager::GetShader( "SimpleLight" )->SetVec3( "objectColor", glm::vec3( 0.0f, 0.5f, 0.1f ), true );
-    //ResourceManager::GetShader( "SimpleLight" )->SetVec3( "lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
-    //ResourceManager::GetShader( "SimpleLight" )->SetVec3( "lightPos", glm::vec3( 20.0, 40.0f, -70.0f ), true );
-    //m_pTerran3->RenderMesh();
+    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pTerrain->m_model, true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_objectColor", glm::vec3( 0.0f, 0.5f, 0.1f ), true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightPos", glm::vec3( 20.0, 40.0f, -70.0f ), true );
+    m_pTerrain->RenderMesh();
 
     //ResourceManager::GetShader( "Light" )->SetMat4( "projection", TheEngine::Instance()->m_pCamera->m_projection, true );
     //ResourceManager::GetShader( "Light" )->SetMat4( "view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix(), true );
@@ -178,11 +172,11 @@ void CleanTempAssets() {
     //    delete m_pTerran2;
     //    m_pTerran2 = nullptr;
     //}
-    //if( m_pTerran3 != nullptr ) {
-    //    m_pTerran3->Clean();
-    //    delete m_pTerran3;
-    //    m_pTerran3 = nullptr;
-    //}
+    if( m_pTerrain != nullptr ) {
+        m_pTerrain->Clean();
+        delete m_pTerrain;
+        m_pTerrain = nullptr;
+    }
 
     //if( m_pLight != nullptr ) {
     //    m_pLight->Clean();
