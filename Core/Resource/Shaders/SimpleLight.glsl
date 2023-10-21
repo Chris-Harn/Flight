@@ -12,10 +12,9 @@ out vec3 FragPos;
 out vec3 Normal;
 
 void main() {
-	gl_Position = u_projection * u_view * u_model * vec4( VertexPosition, 1.0f );
+	gl_Position = u_projection * u_view * u_model * vec4( VertexPosition, 1.0 );
 	FragPos = vec3( u_model * vec4( VertexPosition, 1.0 ) );
-	//Normal = VertexNormal;
-	Normal = mat3( transpose(inverse( u_model ) ) ) * VertexNormal;
+	Normal = VertexNormal;
 }
 
 #shader fragment
@@ -27,20 +26,28 @@ in vec3 Normal;
 uniform vec3 u_objectColor;
 uniform vec3 u_lightColor;
 uniform vec3 u_lightPos;
+uniform vec3 u_viewPos;
 
 out vec4 FragColor;
 
 void main() {
-	// Diffuse Lighting
+	// Diffuse Light
 	vec3 norm = normalize( Normal );
 	vec3 lightDir = normalize( u_lightPos - FragPos );
 	float diff = max( dot( norm, lightDir ), 0.0 );
 	vec3 diffuse = diff * u_lightColor;
 
-	// Ambient Lighting
+	// Ambient Light
 	float ambientStrength = 0.15;
 	vec3 ambient = ambientStrength * u_lightColor;
 
-	vec3 result = ( ambient + diffuse ) * u_objectColor;
+	// Specular Light
+	float specularStrength = 0.5;
+	vec3 viewDir = normalize( u_viewPos - FragPos );
+	vec3 reflectDir = reflect( -lightDir, norm );
+	float spec = pow( max( dot( viewDir, reflectDir ), 0.0 ), 32 );
+	vec3 specular = specularStrength * spec * u_lightColor;
+
+	vec3 result = ( ambient + diffuse + specular ) * u_objectColor;
 	FragColor = vec4( result, 1.0 );
 }
