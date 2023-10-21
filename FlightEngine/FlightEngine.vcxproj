@@ -172,8 +172,11 @@
     <ClInclude Include="Include\OpenGL\Mesh.h" />
     <ClInclude Include="Include\OpenGL\Temp.h" />
     <ClInclude Include="Include\Timer.h" />
+    <ClInclude Include="Include\OpenGL\Terrain.h" />
+    <ClInclude Include="Include\RandomGenerator.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RandomGenerator.cpp" />
     <ClCompile Include="Source\OpenGL\Helper.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\OpenGL\Camera.cpp" />
@@ -188,6 +191,7 @@
     <ClCompile Include="Source\stb_image.cpp" />
     <ClCompile Include="Source\OpenGL\TextRenderer.cpp" />
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
+    <ClCompile Include="Source\OpenGL\Terrain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

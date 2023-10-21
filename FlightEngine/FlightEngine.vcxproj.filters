@@ -60,6 +60,12 @@
     <ClInclude Include="Include\OpenGL\Helper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\OpenGL\Terrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RandomGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine.cpp">
@@ -102,6 +108,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\OpenGL\Helper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL\Terrain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RandomGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
