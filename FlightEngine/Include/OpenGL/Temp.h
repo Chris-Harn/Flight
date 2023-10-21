@@ -16,7 +16,7 @@
 /* Same with the assets being global. */
 Mesh *m_pPyramid;
 Mesh *m_pTerrain;
-Mesh *m_pSquare;
+Mesh *m_pCube;
 Mesh *m_pLight;
 
 bool SetupTempAssets();
@@ -26,7 +26,7 @@ void RenderTempAssets();
 bool SetupTempAssets() {
     m_pPyramid = nullptr;
     m_pTerrain = nullptr;
-    m_pSquare = nullptr;
+    m_pCube = nullptr;
     m_pLight = nullptr;
 
     ResourceManager::LoadShader( "Resource/Shaders/Light.glsl", "Light" ); // Light
@@ -113,13 +113,13 @@ bool SetupTempAssets() {
         -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
          0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f
     };
-    try { m_pSquare = new Mesh(); }
+    try { m_pCube = new Mesh(); }
     catch( const std::bad_alloc &e ) {
         (void)e;
-        print_error_message( "ERROR: MEMORY ALLOCATION: Square failed to allocate on heap." );
+        print_error_message( "ERROR: MEMORY ALLOCATION: Cube failed to allocate on heap." );
         return false;
     }
-    m_pSquare->CreateMesh( vertices2, 216 );
+    m_pCube->CreateMesh( vertices2, 216 );
 
     try { m_pLight = new Mesh(); }
     catch( const std::bad_alloc &e ) {
@@ -140,7 +140,7 @@ bool SetupTempAssets() {
     try { m_pTerrain = new Mesh(); }
     catch( const std::bad_alloc &e ) {
         (void)e;
-        print_error_message( "ERROR: MEMORY ALLOCATION: Terran3 failed to allocate on heap." );
+        print_error_message( "ERROR: MEMORY ALLOCATION: Terrain failed to allocate on heap." );
         return false;
     }
     m_pTerrain->CreateMesh( vertices3, 36 );
@@ -154,10 +154,10 @@ bool SetupTempAssets() {
 void UpdateTempAssets() {
     // Update Objects
     static float angle = 360.0f / 3.141565f;
-    m_pSquare->m_model = glm::mat4( 1.0f );
-    m_pSquare->m_model = glm::translate( m_pSquare->m_model, glm::vec3( -1.0f, 0.0f, -4.0f ) );
-    m_pSquare->m_model = glm::scale( m_pSquare->m_model, glm::vec3( 2.0f, 2.0f, 2.0f ) );
-    m_pSquare->m_model = glm::rotate( m_pSquare->m_model, angle * 0.5f, glm::vec3( 0.1f, -0.5f, 1.0f ) );
+    m_pCube->m_model = glm::mat4( 1.0f );
+    m_pCube->m_model = glm::translate( m_pCube->m_model, glm::vec3( -1.0f, 0.0f, -4.0f ) );
+    m_pCube->m_model = glm::scale( m_pCube->m_model, glm::vec3( 2.0f, 2.0f, 2.0f ) );
+    m_pCube->m_model = glm::rotate( m_pCube->m_model, angle * 0.5f, glm::vec3( 0.1f, -0.5f, 1.0f ) );
     m_pPyramid->m_model = glm::mat4( 1.0f );
     m_pPyramid->m_model = glm::translate( m_pPyramid->m_model, glm::vec3( 1.0f, 1.0f, -1.5f ) );
     m_pPyramid->m_model = glm::rotate( m_pPyramid->m_model, angle * 0.1f, glm::vec3( 0.0f, 1.0f, 0.0f ) );
@@ -168,36 +168,45 @@ void UpdateTempAssets() {
 void RenderTempAssets() {
     // Light - NOTE: Do light first so can give position to other objects
     ResourceManager::GetShader( "Light" )->SetMat4( "u_projection", TheEngine::Instance()->m_pCamera->m_projection, true );
-    ResourceManager::GetShader( "Light" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix(), true );
+    ResourceManager::GetShader( "Light" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix() );
     m_pLight->m_model = glm::mat4( 1.0f );
     m_pLight->m_model = glm::translate( m_pLight->m_model, glm::vec3( 12.5f, 50.0f, 75.0f ) );
     m_pLight->m_model = glm::scale( m_pLight->m_model, glm::vec3( 10.0f, 10.0f, 10.0f ) );
-    ResourceManager::GetShader( "Light" )->SetMat4( "u_model", m_pLight->m_model, true );
-    ResourceManager::GetShader( "Light" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
+    ResourceManager::GetShader( "Light" )->SetMat4( "u_model", m_pLight->m_model );
+    ResourceManager::GetShader( "Light" )->SetVec3( "u_lightColor", 1.0f, 1.0f, 1.0f );
     m_pLight->RenderMesh();
 
     // Set once and let be used the entire frame...
     ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_projection", TheEngine::Instance()->m_pCamera->m_projection, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix(), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_viewPos", TheEngine::Instance()->m_pCamera->GetCameraPosition(), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightPos", glm::vec3( m_pLight->m_model[3] ), true );
+    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix() );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_viewPos", TheEngine::Instance()->m_pCamera->GetCameraPosition() );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_light.position", glm::vec3( m_pLight->m_model[3] ) );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_light.ambient", 0.2f, 0.2f, 0.2f );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_light.diffuse", 1.0f, 1.0f, 1.0f );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_light.specular", 1.0f, 1.0f, 1.0f );
 
     // Pyramid
     ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pPyramid->m_model, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_objectColor", glm::vec3( 1.0f, 0.5f, 0.31f ), true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.ambient", 1.0f, 0.5f, 0.31f );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.diffuse", 1.0f, 0.5f, 0.31f );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.specular", 0.5f, 0.5f, 0.5f );
+    ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 32.0f );
     m_pPyramid->RenderMesh();
 
-    // Rotating Square
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pSquare->m_model, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_objectColor", glm::vec3( 0.9f, 0.0f, 0.0f ), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
-    m_pSquare->RenderMesh();
+    // Rotating Cube
+    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pCube->m_model, true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.ambient", 0.9f, 0.0f, 0.0f );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.diffuse", 1.0f, 0.0f, 0.0f );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.specular", 0.9f, 0.1f, 0.1f );
+    ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 100.0f );
+    m_pCube->RenderMesh();
 
     // Ground
     ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pTerrain->m_model, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_objectColor", glm::vec3( 0.0f, 0.5f, 0.1f ), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.ambient", 0.0f, 0.4f, 0.1f );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.diffuse", 0.0f, 0.5f, 0.1f );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.specular", 0.1f, 0.5f, 0.1f );
+    ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 5.0f );
     m_pTerrain->RenderMesh();
 }
 
@@ -207,10 +216,10 @@ void CleanTempAssets() {
         delete m_pPyramid;
         m_pPyramid = nullptr;
     }
-    if( m_pSquare != nullptr ) {
-        m_pSquare->Clean();
-        delete m_pSquare;
-        m_pSquare = nullptr;
+    if( m_pCube != nullptr ) {
+        m_pCube->Clean();
+        delete m_pCube;
+        m_pCube = nullptr;
     }
     if( m_pTerrain != nullptr ) {
         m_pTerrain->Clean();
