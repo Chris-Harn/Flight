@@ -1,14 +1,14 @@
 #include "OpenGL/Terrain.h"
 
 Terrain::Terrain() {
-    m_pterrainData = nullptr;
+    m_pWaterData = nullptr;
     m_terrainSize = 0;
 }
 
 Terrain::~Terrain() {
-    if( m_pterrainData != nullptr ) {
-        delete m_pterrainData;
-        m_pterrainData = nullptr;
+    if( m_pWaterData != nullptr ) {
+        delete m_pWaterData;
+        m_pWaterData = nullptr;
         m_terrainSize = 0;
     }
 }
