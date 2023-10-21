@@ -157,7 +157,7 @@ void Engine::HandleEvents() {
     m_pCamera->KeyControl( m_pMainWindow->GetsKeys(), m_pTimer->GetDeltaTime() );
     m_pCamera->MouseControl( m_pMainWindow->GetXChange(), m_pMainWindow->GetYChange() );
 
-    //UpdateTempAssets();
+    UpdateTempAssets();
 }
 
 void Engine::Render() {
