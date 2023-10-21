@@ -22,6 +22,32 @@ unsigned int RandomGenerator::Generate( int offset, int range ) {
     return ( offset + ( rand() % range ) );
 }
 
-unsigned char RandomGenerator::GenerateHeight() {
+unsigned char RandomGenerator::GenerateUChar() {
     return ( rand() % 256 );
+}
+
+float RandomGenerator::GenerateFloat() {
+    return (float)( rand() / (float)( RAND_MAX ) );
+}
+
+unsigned char *RandomGenerator::GenerateGridUChar( int size ) {
+    int area = size * size;
+    unsigned char *data = new unsigned char[area];
+
+    for(int i = 0; i < area; i++ ) {
+        data[i] = GenerateUChar();
+    }
+
+    return data;
+}
+
+float *RandomGenerator::GenerateGridFloat( int size ) {
+    int area = size * size;
+    float *data = new float[area];
+
+    for( int i = 0; i < area; i++ ) {
+        data[i] = GenerateFloat();
+    }
+
+    return data;
 }

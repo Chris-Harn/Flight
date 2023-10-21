@@ -1,7 +1,6 @@
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
 
-class Quad;
 class Shader;
 class Mesh;
 
@@ -39,9 +38,11 @@ public:
     Window *m_pMainWindow;
     TextRenderer *m_pTextRenderer;
     Camera *m_pCamera;
+    Terrain *m_pTerrain;
 
     // Engine Items
     Timer *m_pTimer;
+    RandomGenerator *m_pRandomGenerator;
 };
 
 typedef Engine TheEngine;

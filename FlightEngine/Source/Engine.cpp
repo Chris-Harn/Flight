@@ -3,7 +3,6 @@
 #include "OpenGL/Window.h"
 #include "OpenGL/TextRenderer.h"
 #include "OpenGL/Camera.h"
-#include "OpenGL/Quad.h"
 #include "OpenGL/Mesh.h"
 #include "OpenGL/Shader.h"
 #include "OpenGL/ResourceManager.h"

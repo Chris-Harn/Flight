@@ -4,7 +4,9 @@
 #include "Engine.h"
 #include "OpenGL/Mesh.h"
 #include "OpenGL/ResourceManager.h"
+#include "OpenGL/Terrain.h"
 #include "Logger.h"
+#include "RandomGenerator.h""
 
 #include <GL/glew.h>
 

@@ -6,7 +6,10 @@ public:
     RandomGenerator();
     ~RandomGenerator();
     unsigned int Generate( int offset, int range ); // Returns [offset, offset + range)
-    unsigned char GenerateHeight(); // Returns [0, 255]
+    unsigned char GenerateUChar(); // Returns [0, 255]
+    float GenerateFloat(); // Returns [0.0f, 1.0f]
+    unsigned char *GenerateGridUChar( int size );
+    float *GenerateGridFloat( int size );
 };
 
 #endif
