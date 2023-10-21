@@ -106,9 +106,6 @@ bool Window::Initialization( unsigned int width,
     glDepthFunc( GL_LEQUAL );
     glDepthRange( 0.0f, 1.0f );
 
-    // Enable backface culling
-    glEnable( GL_CULL_FACE );
-
     return true;
 }
 

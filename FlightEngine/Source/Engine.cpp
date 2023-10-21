@@ -139,18 +139,16 @@ void Engine::HandleEvents() {
         m_pMainWindow->ToggleWireFrame( false );
     }
 
-    // Toggle GL_CULL_FACE Mode on
+    // Toggle GL_CULL_FACE Mode on/off
     static bool cullClockwiseTriangles = false;
     if( m_pMainWindow->GetsKeys()[59] == true ) {
-        cullClockwiseTriangles = true;
-    }
-
-    // Toggle GL_CULL_FACE Mode off
-    if( m_pMainWindow->GetsKeys()[39] == true ) {
-        cullClockwiseTriangles = false;
+        cullClockwiseTriangles = !cullClockwiseTriangles;
+        m_pMainWindow->GetsKeys()[59] = false;
     }
 
     if( cullClockwiseTriangles == true ) {
+        // Won't stay enabled, so have to check it and enable it 
+        // each frame.
         glEnable( GL_CULL_FACE );
     }
 
