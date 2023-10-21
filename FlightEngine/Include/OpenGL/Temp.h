@@ -30,7 +30,7 @@ bool SetupTempAssets() {
     m_pLight = nullptr;
 
     ResourceManager::LoadShader( "Resource/Shaders/Light.glsl", "Light" ); // Light
-    ResourceManager::LoadShader( "Resource/Shaders/SimpleLight.glsl", "SimpleLight" ); // Diffuse + Ambient
+    ResourceManager::LoadShader( "Resource/Shaders/SimpleLight.glsl", "SimpleLight" ); // Phong Lighting = Diffuse + Ambient + Specular
 
     // Create a pyramid so we have normals to check against.
     GLfloat vertices[] = {
@@ -157,39 +157,16 @@ void UpdateTempAssets() {
     m_pSquare->m_model = glm::mat4( 1.0f );
     m_pSquare->m_model = glm::translate( m_pSquare->m_model, glm::vec3( -1.0f, 0.0f, -4.0f ) );
     m_pSquare->m_model = glm::scale( m_pSquare->m_model, glm::vec3( 2.0f, 2.0f, 2.0f ) );
-    m_pSquare->m_model = glm::rotate( m_pSquare->m_model, angle, glm::vec3( 0.1f, -0.5f, 1.0f ) );
-    angle += 0.01f / 3.141565f * TheEngine::Instance()->m_pTimer->GetDeltaTime();
+    m_pSquare->m_model = glm::rotate( m_pSquare->m_model, angle * 0.5f, glm::vec3( 0.1f, -0.5f, 1.0f ) );
+    m_pPyramid->m_model = glm::mat4( 1.0f );
+    m_pPyramid->m_model = glm::translate( m_pPyramid->m_model, glm::vec3( 1.0f, 1.0f, -1.5f ) );
+    m_pPyramid->m_model = glm::rotate( m_pPyramid->m_model, angle * 0.1f, glm::vec3( 0.0f, 1.0f, 0.0f ) );
+    angle += 0.005f / 3.141565f * TheEngine::Instance()->m_pTimer->GetDeltaTime();
     if( angle >= 360.0f ) angle = 0.0f;
 }
 
 void RenderTempAssets() {
-    // Set once and let be used the entire frame...
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_projection", TheEngine::Instance()->m_pCamera->m_projection, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix(), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_viewPos", TheEngine::Instance()->m_pCamera->GetCameraPosition(), true );
-
-    // Pyramid
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pPyramid->m_model, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_objectColor", glm::vec3( 1.0f, 0.5f, 0.31f ), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightPos", glm::vec3( 12.5f, 50.0f, 75.0f ), true );
-    m_pPyramid->RenderMesh();
-
-    // Rotating Square
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pSquare->m_model, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_objectColor", glm::vec3( 0.9f, 0.0f, 0.0f ), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightPos", glm::vec3( 12.5f, 50.0f, 75.0f ), true );
-    m_pSquare->RenderMesh();
-
-    // Ground
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pTerrain->m_model, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_objectColor", glm::vec3( 0.0f, 0.5f, 0.1f ), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightPos", glm::vec3( 12.5f, 50.0f, 75.0f ), true );
-    m_pTerrain->RenderMesh();
-
-    // Light
+    // Light - NOTE: Do light first so can give position to other objects
     ResourceManager::GetShader( "Light" )->SetMat4( "u_projection", TheEngine::Instance()->m_pCamera->m_projection, true );
     ResourceManager::GetShader( "Light" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix(), true );
     m_pLight->m_model = glm::mat4( 1.0f );
@@ -198,6 +175,30 @@ void RenderTempAssets() {
     ResourceManager::GetShader( "Light" )->SetMat4( "u_model", m_pLight->m_model, true );
     ResourceManager::GetShader( "Light" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
     m_pLight->RenderMesh();
+
+    // Set once and let be used the entire frame...
+    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_projection", TheEngine::Instance()->m_pCamera->m_projection, true );
+    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix(), true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_viewPos", TheEngine::Instance()->m_pCamera->GetCameraPosition(), true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightPos", glm::vec3( m_pLight->m_model[3] ), true );
+
+    // Pyramid
+    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pPyramid->m_model, true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_objectColor", glm::vec3( 1.0f, 0.5f, 0.31f ), true );
+    m_pPyramid->RenderMesh();
+
+    // Rotating Square
+    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pSquare->m_model, true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_objectColor", glm::vec3( 0.9f, 0.0f, 0.0f ), true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
+    m_pSquare->RenderMesh();
+
+    // Ground
+    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pTerrain->m_model, true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_objectColor", glm::vec3( 0.0f, 0.5f, 0.1f ), true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
+    m_pTerrain->RenderMesh();
 }
 
 void CleanTempAssets() {
