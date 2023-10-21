@@ -34,13 +34,13 @@ bool SetupTempAssets() {
     // Create a pyramid so we have something temporary to look at
     GLfloat vertices[] = {
         // Bottom Left Square, normals
-        -1.0f,  0.0f,  0.0f,  0.0f,  0.0f, -1.0f,
-         0.0f,  0.0f, -1.0f,  0.0f,  0.0f, -1.0f,
-         0.0f,  0.0f,  1.0f,  0.0f,  0.0f, -1.0f,
+        -1.0f,  0.0f,  0.0f,  0.0f, -1.0f,  0.0f,
+         0.0f,  0.0f, -1.0f,  0.0f, -1.0f,  0.0f,
+         0.0f,  0.0f,  1.0f,  0.0f, -1.0f,  0.0f,
         // Bottom Right Square
-         0.0f,  0.0f, -1.0f,  0.0f,  0.0f, -1.0f,
-         1.0f,  0.0f,  0.0f,  0.0f,  0.0f, -1.0f,
-         0.0f,  0.0f,  1.0f,  0.0f,  0.0f, -1.0f,
+         0.0f,  0.0f, -1.0f,  0.0f, -1.0f,  0.0f,
+         1.0f,  0.0f,  0.0f,  0.0f, -1.0f,  0.0f,
+         0.0f,  0.0f,  1.0f,  0.0f, -1.0f,  0.0f,
         // Slope 1
          0.0f,  1.0f,  0.0f,  0.5f,  0.7f,  0.5f,
         -1.0f,  0.0f,  0.0f,  0.5f,  0.7f,  0.5f,
@@ -99,12 +99,12 @@ bool SetupTempAssets() {
     //m_pLight->CreateMesh( vertices2, 48 );
 
     float vertices3[]{
-        -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,   1.0f,
-        -1.0f,  0.0f,  1.0f,  0.0f,  0.0f,   1.0f,
-         1.0f,  0.0f, -1.0f,  0.0f,  0.0f,   1.0f,
-         1.0f,  0.0f, -1.0f,  0.0f,  0.0f,   1.0f,
-       - 1.0f,  0.0f,  1.0f,  0.0f,  0.0f,   1.0f,
-         1.0f,  0.0f,  1.0f,  0.0f,  0.0f,   1.0f
+        -1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+        -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+         1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+         1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+       - 1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+         1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f
     };
     try { m_pTerrain = new Mesh(); }
     catch( const std::bad_alloc &e ) {
@@ -150,7 +150,7 @@ void RenderTempAssets() {
     ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pTerrain->m_model, true );
     ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_objectColor", glm::vec3( 0.0f, 0.5f, 0.1f ), true );
     ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightColor", glm::vec3( 1.0f, 1.0f, 1.0f ), true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightPos", glm::vec3( 20.0, 40.0f, -70.0f ), true );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_lightPos", glm::vec3( 50.0, 400.0f, -700.0f ), true );
     m_pTerrain->RenderMesh();
 
     //ResourceManager::GetShader( "Light" )->SetMat4( "projection", TheEngine::Instance()->m_pCamera->m_projection, true );

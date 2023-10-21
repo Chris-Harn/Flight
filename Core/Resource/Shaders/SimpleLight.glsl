@@ -14,8 +14,8 @@ out vec3 Normal;
 void main() {
 	gl_Position = u_projection * u_view * u_model * vec4( VertexPosition, 1.0f );
 	FragPos = vec3( u_model * vec4( VertexPosition, 1.0 ) );
-	Normal = VertexNormal;
-	//Normal = mat3( transpose(inverse( u_model ) ) ) * VertexPosition;
+	//Normal = VertexNormal;
+	Normal = mat3( transpose(inverse( u_model ) ) ) * VertexNormal;
 }
 
 #shader fragment
