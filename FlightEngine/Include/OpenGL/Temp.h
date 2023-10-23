@@ -160,13 +160,15 @@ bool SetupTempAssets() {
         print_error_message( "ERROR: MEMORY ALLOCATION: Random Generator failed to allocate on heap." );
         return false;
     }
+    unsigned char *dataUchar = m_pRandomGenerator->GenerateGridUChar( 128 );
+    float *dataf = m_pRandomGenerator->GenerateGridFloat( 128 );
 
     try { m_pTerrain = new Terrain(); }
     catch( const std::bad_alloc &e ) {
         (void)e;
         print_error_message( "ERROR: MEMORY ALLOCATION: Terrain failed to allocate on heap." );
         return false;
-    }
+    }    
 
     return true;
 }

@@ -1,7 +1,6 @@
 #include "OpenGL/TextRenderer.h"
 
 #include "OpenGL/Window.h"
-#include "OpenGL/Quad.h"
 #include "OpenGL/Shader.h"
 #include "OpenGL/ResourceManager.h"
 

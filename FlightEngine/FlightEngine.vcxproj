@@ -165,7 +165,6 @@
     <ClInclude Include="Include\Logger.h" />
     <ClInclude Include="Include\stb_image.h" />
     <ClInclude Include="Include\OpenGL\TextRenderer.h" />
-    <ClInclude Include="Include\OpenGL\Quad.h" />
     <ClInclude Include="Include\OpenGL\Shader.h" />
     <ClInclude Include="Include\OpenGL\ResourceManager.h" />
     <ClInclude Include="Include\OpenGL\Texture.h" />
@@ -174,7 +173,6 @@
     <ClInclude Include="Include\Timer.h" />
     <ClInclude Include="Include\OpenGL\Terrain.h" />
     <ClInclude Include="Include\RandomGenerator.h" />
-    <ClInclude Include="Include\OpenGL\TriangleList.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\RandomGenerator.cpp" />
@@ -185,7 +183,6 @@
     <ClCompile Include="Source\OpenGL\Framebuffer.cpp" />
     <ClCompile Include="Source\OpenGL\ResourceManager.cpp" />
     <ClCompile Include="Source\OpenGL\Shader.cpp" />
-    <ClCompile Include="Source\OpenGL\Quad.cpp" />
     <ClCompile Include="Source\Logger.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\OpenGL\Window.cpp" />
@@ -193,7 +190,6 @@
     <ClCompile Include="Source\OpenGL\TextRenderer.cpp" />
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
     <ClCompile Include="Source\OpenGL\Terrain.cpp" />
-    <ClCompile Include="Source\OpenGL\TriangleList.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
