@@ -1,6 +1,8 @@
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
 
+class Timer;
+
 class Engine {
 public:
     static Engine *Instance() {
@@ -24,6 +26,9 @@ private:
 
     // Controls
     bool m_bRunning;
+
+    // Systems
+    Timer *m_pTimer;
 };
 
 typedef Engine TheEngine;
