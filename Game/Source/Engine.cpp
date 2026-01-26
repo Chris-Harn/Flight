@@ -8,8 +8,8 @@ Engine::Engine() {
 }
 
 bool Engine::Init() {
-    TheLogger::Instance()->Open( "LatestLog.txt" );
-    TheLogger::Instance()->Printf_ntstamp( "Flight Version : 0.0.1\n" );
+    //TheLogger::Instance()->Open( "logs" );
+    TheLogger::Instance()->Printf_tstamp( "Flight Version : 0.0.1\n" );
 
     // Everything started up without issue...
     m_bRunning = true;
@@ -26,7 +26,8 @@ void Engine::Render() {
 }
 
 void Engine::Clean() {
-    TheLogger::Instance()->Printf_ntstamp( "Program ran cleanup.\n" );
+    TheLogger::Instance()->Printf_tstamp( "Program ended.\n" );
+    TheLogger::Instance()->CloseFile();
 }
 
 bool Engine::Running() {

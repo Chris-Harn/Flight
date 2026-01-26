@@ -64,10 +64,7 @@ void Logger::Printf_tstamp( const char *fmt, ... ) {
 		fprintf( m_pFhandle, outputline );
 		fprintf( m_pFhandle, "\n" );
 	}
-#ifdef _DEBUG
-	printf( outputline );
-	printf( "\n" );
-#endif
+	printf( outputline, "\n" );
 }
 
 void Logger::Printf_ntstamp( const char *fmt, ... ) {
@@ -84,9 +81,6 @@ void Logger::Printf_ntstamp( const char *fmt, ... ) {
 		fprintf( m_pFhandle, outputline );
 		fprintf( m_pFhandle, "\n" );
 	}
-#ifdef _DEBUG
-	printf( outputline );
-	printf( "\n" );
-#endif
+	printf( outputline, "\n" );
 }
 
