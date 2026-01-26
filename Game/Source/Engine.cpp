@@ -1,6 +1,5 @@
 #include "Engine.h"
-
-#include <iostream>
+#include "Logger.h"
 
 Engine *Engine::s_pInstance = 0;
 
@@ -9,7 +8,8 @@ Engine::Engine() {
 }
 
 bool Engine::Init() {
-    std::cout << "Flight Version: 0.0.1\n" << std::endl;
+    TheLogger::Instance()->Open( "LatestLog.txt" );
+    TheLogger::Instance()->Printf_ntstamp( "Flight Version : 0.0.1\n" );
 
     // Everything started up without issue...
     m_bRunning = true;
@@ -26,9 +26,14 @@ void Engine::Render() {
 }
 
 void Engine::Clean() {
-    std::cout << "Program ended without issue." << std::endl;
+    TheLogger::Instance()->Printf_ntstamp( "Program ran cleanup.\n" );
 }
 
 bool Engine::Running() {
+    static int count = 0;
+    count++;
+
+    if( count > 100000000 ) m_bRunning = false;
+
     return m_bRunning;
 }
