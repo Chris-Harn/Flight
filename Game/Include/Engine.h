@@ -1,6 +1,7 @@
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
 
+class Window;
 class Timer;
 
 class Engine {
@@ -12,7 +13,7 @@ public:
         return s_pInstance;
     }
 
-    bool Init();
+    bool Init( const char *title, int windowWidth, int windowHeight, bool fullScreen );
     void HandleEvents();
     void Render();
     void Clean();
@@ -27,7 +28,11 @@ private:
     // Controls
     bool m_bRunning;
 
+    // Renderer
+    Window *m_pMainWindow;
+
     // Systems
+
     Timer *m_pTimer;
 };
 

@@ -1,9 +1,8 @@
+#include "Main.h"
 #include "Engine.h"
 
-#include <iostream>
-
 int main() {
-    if( TheEngine::Instance()->Init() == true ) {
+    if( TheEngine::Instance()->Init( TITLE, RENDER_X_RESOLUTION, RENDER_Y_RESOLUTION, FULL_SCREEN ) ) {
         while( TheEngine::Instance()->Running() ) {
             TheEngine::Instance()->HandleEvents();
             TheEngine::Instance()->Render();
