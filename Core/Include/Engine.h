@@ -13,7 +13,7 @@ public:
         return s_pInstance;
     }
 
-    bool Init( const char *title, int windowWidth, int windowHeight, bool fullScreen );
+    bool Init();
     void HandleEvents();
     void Render();
     void Clean();

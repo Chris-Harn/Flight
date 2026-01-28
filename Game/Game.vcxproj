@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\Engine.h" />
+    <ClInclude Include="Game.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Engine.cpp" />
+    <ClCompile Include="Game.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -86,13 +86,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\GameLib\</OutDir>
     <IntDir>$(SolutionDir)\Bin\Intermediates\Game\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Game\Include;$(SolutionDir)\Renderer\Include;$(SolutionDir)\Utilities\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Game\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\GameLib\</OutDir>
     <IntDir>$(SolutionDir)\Bin\Intermediates\Game\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Game\Include;$(SolutionDir)\Renderer\Include;$(SolutionDir)\Utilities\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Game\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

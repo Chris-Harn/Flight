@@ -1,6 +1,6 @@
 #include "Engine.h"
 
-#include "OpenGL\Window.h"
+//#include "OpenGL\Window.h"
 
 #include "Logger.h"
 #include "Timer.h"
@@ -13,20 +13,20 @@ Engine::Engine() {
     m_pTimer = nullptr;
 }
 
-bool Engine::Init( const char *title, int windowWidth, int windowHeight, bool fullScreen ) {
+bool Engine::Init() {
     TheLogger::Instance()->Printf_tstamp( "Flight Version : 0.0.1\n" );
 
-    TheLogger::Instance()->Printf_message( "Program started without issue.\n" );
-    try { m_pMainWindow = new Window(); }
-    catch( const std::bad_alloc &e ) {
-        (void)e;
-        TheLogger::Instance()->LogError( "ERROR: MEMORY ALLOCATION: Main Window failed to allocate on heap." );
-        return false;
-    }
-    if( m_pMainWindow->Initialization( windowWidth, windowHeight, title, fullScreen ) != true ) {
-        TheLogger::Instance()->LogError( "ERROR: EXIT EARLY: Main window failed to initalize." );
-        return false;
-    }
+    //TheLogger::Instance()->Printf_message( "Program started without issue.\n" );
+    //try { m_pMainWindow = new Window(); }
+    //catch( const std::bad_alloc &e ) {
+    //    (void)e;
+    //    TheLogger::Instance()->LogError( "ERROR: MEMORY ALLOCATION: Main Window failed to allocate on heap." );
+    //    return false;
+    //}
+    //if( m_pMainWindow->Initialization( windowWidth, windowHeight, title, fullScreen ) != true ) {
+    //    TheLogger::Instance()->LogError( "ERROR: EXIT EARLY: Main window failed to initalize." );
+    //    return false;
+    //}
 
     try { m_pTimer = new Timer(); }
     catch( const std::bad_alloc &e ) {

@@ -1,5 +1,5 @@
-#ifndef __MAIN__
-#define __MAIN__
+#ifndef __GAME__
+#define __GAME__
 
 #ifdef RELEASE    
     #define TITLE "Flight"
@@ -13,5 +13,18 @@
     #define FULL_SCREEN false
 #endif
 
+struct GameConfig {
+    const char *title = TITLE;
+    int width = RENDER_X_RESOLUTION;
+    int height = RENDER_Y_RESOLUTION;
+    bool fullscreen = FULL_SCREEN;
+};
+
+//class Game {
+//public:
+//
+//private:
+//
+//};
 
 #endif
