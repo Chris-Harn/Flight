@@ -19,6 +19,7 @@ public:
 
 	void Open( const char *path );
 	void LogError( const char *fmt, ... );
+	void Printf_message( const char *fmt, ... );
 	void Printf_tstamp( const char *fmt, ... );
 	void Printf_ntstamp( const char *fmt, ... );
 	inline FILE *GetFileHandle( void ) { return m_pFhandle; }

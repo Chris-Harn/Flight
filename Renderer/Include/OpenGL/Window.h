@@ -1,41 +1,62 @@
 #ifndef __WINDOW_H__
 #define __WINDOW_H__
 
-struct GLFWwindow;
-
-enum protoWindow {
-    TOTAL_KEYS = 1024 /* Dev choosen number */
-};
+#include <GL\glew.h>
+#include <GLFW\glfw3.h>
 
 class Window {
 public:
     Window();
     ~Window();
-    bool Initialize( unsigned int width,
+    bool Initialization( unsigned int width,
         unsigned int height,
         const char *title,
         bool fullScreen );
-    void PollEvents();
     void ClearColorBuffer();
-    void UpscaleImage();
-    void SwapBuffer();
-    bool GetShouldClose();
+    void SwapBuffers();
+    void PollEvents();
     void Clean();
-
     bool *GetsKeys();
+    bool IsKeyUp( int key );
+    bool IsKeyDown( int key );
+    bool GetShouldClose();
+    float GetBufferWidth();
+    float GetBufferHeight();
+    GLfloat GetXChange();
+    GLfloat GetYChange();
     GLFWwindow *GetWindow();
+    void ToggleVsync( bool setVsync );
+    void ToggleWireFrame( bool setWireFrame );
+    bool GetVsync();
+
+    enum PROTO {
+        TOTAL_KEYS = 1024 /* Dev choosen number */
+    };
+
+    // Public Shared Variables
+    GLfloat m_lastX;
+    GLfloat m_lastY;
+    GLfloat m_xChange;
+    GLfloat m_yChange;
+    bool m_bMouseFirstMove;
+
 private:
-    GLFWwindow *m_pMainWindow;
+    GLFWwindow *m_pWindow;
     bool m_bKeys[TOTAL_KEYS];
+    int m_BufferWidth;
+    int m_BufferHeight;
+    bool m_vSync;
 
-    int m_bufferWidth, m_bufferHeight;
-
+    // Callback function require static functions
     void CreateCallbacks();
     static void HandleKeys( GLFWwindow *window,
         int key,
         int code,
         int action,
         int mode );
+    static void HandleMouse( GLFWwindow *window,
+        double xPos,
+        double yPos );
 };
 
 #endif

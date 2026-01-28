@@ -22,6 +22,13 @@ void Logger::Open( const char *path ) {
 	fopen_s( &m_pFhandle, filename, "w" );
 }
 
+void Logger::Printf_message( const char *fmt, ... ) {
+	va_list args;
+	va_start( args, fmt );
+	vprintf( fmt, args );
+	va_end( args );
+}
+
 void Logger::LogError( const char *fmt, ... ) {
 	va_list argp;
 	char outputline[MAX_SIZE_OF_MESSAGE];
@@ -40,10 +47,10 @@ void Logger::LogError( const char *fmt, ... ) {
 		fprintf( m_pFhandle, outputline );
 		fprintf( m_pFhandle, "\n" );
 	}
-#ifdef _DEBUG
-	printf( outputline );
-	printf( "\n" );
-#endif
+	#ifdef _DEBUG
+		printf( outputline );
+		printf( "\n" );
+	#endif
 }
 
 void Logger::Printf_tstamp( const char *fmt, ... ) {

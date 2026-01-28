@@ -86,13 +86,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\RendererLib\</OutDir>
     <IntDir>$(SolutionDir)\Bin\Intermediates\Renderer\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Renderer\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Renderer\Include;$(SolutionDir)\Utilities\Include;$(SolutionDir)\External Dependances\GLFW\x64\include;$(SolutionDir)\External Dependances\GLEW\x64\include;$(SolutionDir)\External Dependances\GLM\x64\include;$(SolutionDir)\External Dependances\FreeType\x64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\RendererLib\</OutDir>
     <IntDir>$(SolutionDir)\Bin\Intermediates\Renderer\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Renderer\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Renderer\Include;$(SolutionDir)\Utilities\Include;$(SolutionDir)\External Dependances\GLFW\x64\include;$(SolutionDir)\External Dependances\GLEW\x64\include;$(SolutionDir)\External Dependances\GLM\x64\include;$(SolutionDir)\External Dependances\FreeType\x64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
