@@ -28,13 +28,13 @@ bool Engine::Init() {
     //    return false;
     //}
 
-    try { m_pTimer = new Timer(); }
+    try { m_pTimer = new Timer( 200, true ); }
     catch( const std::bad_alloc &e ) {
         (void)e;
         TheLogger::Instance()->LogError( "ERROR: MEMORY ALLOCATION: Timer failed to allocate on heap." );
         return false;
     }
-    m_pTimer->Tick();
+    m_pTimer->StartFrame();
 
     // Everything started up without issue...
     m_bRunning = true;
@@ -43,7 +43,7 @@ bool Engine::Init() {
 }
 
 void Engine::HandleEvents() {
-    m_pTimer->Tick();
+    m_pTimer->StartFrame();
 }
 
 void Engine::Render() {

@@ -1,45 +1,82 @@
 #include "Timer.h"
 
-#include <iostream> // std::cout
+#include <thread>
+#include <iostream>
 
-Timer::Timer() {
+void precisionSleepUntil( std::chrono::high_resolution_clock::time_point target );
+
+Timer::Timer( int targetThisFPS, bool regulateThisFPS ) {
+    // Variables for calculating FPS
+    m_bRegulateTheFPS = regulateThisFPS;
     m_currentCountFPS = 0;
-    m_FPS = 0;
-
+    m_lastFPS = 0;
     m_startTime = std::chrono::high_resolution_clock::now();
-    m_currentTime = m_lastFrameTime = m_startTime;
+    m_currentTime = m_startTime;
 
-    m_deltaTime = 0.0;
+    // Variables for regulating the fps
+    m_nextFrameTime = m_startTime;
+    m_frameTime = std::chrono::duration<double>( 1.0 / targetThisFPS );
+
+    // Variables for calculating delta time
+    m_lastDeltaTime = m_startTime;
+    m_currentDeltaTime = m_startTime;
 }
 
 Timer::~Timer() {
 
 }
 
-void Timer::Tick() {
+void Timer::StartFrame() {
     m_currentCountFPS++;
 
-    // Compute delta time in milliseconds
     m_currentTime = std::chrono::high_resolution_clock::now();
-    m_deltaTime = std::chrono::duration<double, std::milli>( m_currentTime - m_lastFrameTime ).count();
-    m_lastFrameTime = m_currentTime;
 
-    // Calculate the FPS once per 1000ms
+    if( m_bRegulateTheFPS == true ) {
+        // Compute next frame time without drift
+        m_nextFrameTime = m_startTime + m_currentCountFPS * std::chrono::duration_cast<std::chrono::high_resolution_clock::duration>( m_frameTime );
+        std::this_thread::sleep_until( m_nextFrameTime );
+        precisionSleepUntil( m_nextFrameTime );
+        //m_currentTime = std::chrono::high_resolution_clock::now();
+    }
+
+    // Calculate the fps once per second
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>( m_currentTime - m_startTime );
-    // Check if 1 second elapsed
+
+    // Check if one second elapsed
     if( elapsedTime.count() >= 1000.0 ) {
-        m_FPS = m_currentCountFPS;
+        m_lastFPS = m_currentCountFPS;
         m_currentCountFPS = 0;
         m_startTime = m_currentTime;
 
-        std::cout << "FPS = " << m_FPS << " which is " << 1000.0f / m_FPS << "ms.\n";
+        std::cout << "FPS = " << m_lastFPS << " which is " << 1000.0 / m_lastFPS << "ms.\n";
     }
 }
 
 double Timer::GetDeltaTime() {
-    return m_deltaTime;
+    m_currentDeltaTime = std::chrono::high_resolution_clock::now();
+
+    double deltaCount = std::chrono::duration<double, std::milli>( m_currentDeltaTime - m_lastDeltaTime ).count();
+    m_lastDeltaTime = m_currentDeltaTime;
+
+    return deltaCount;
 }
 
 int Timer::GetFPSValue() {
-    return m_FPS;
+    return m_lastFPS;
+}
+
+void precisionSleepUntil( std::chrono::high_resolution_clock::time_point target ) {
+    while( true ) {
+        auto now = std::chrono::high_resolution_clock::now();
+        auto remaining = target - now;
+
+        if( remaining <= std::chrono::microseconds( 200 ) ) {
+            // Busy wait for the last tiny bit
+            while( std::chrono::high_resolution_clock::now() < target ) {}
+            return;
+        }
+
+        // Sleep most of the remaining time
+        std::this_thread::sleep_for( remaining - std::chrono::microseconds( 200 ) );
+    }
 }
