@@ -19,7 +19,9 @@ void Logger::Open( const char *path ) {
 	sprintf_s( filename, "%s\\%04d%02d%02d_%02d%02d%02d_%03d.log",
 		path, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds );
 
-	fopen_s( &m_pFhandle, filename, "w" );
+	// Open File directory
+	errno_t err = fopen_s( &m_pFhandle, filename, "w" );
+	if( err != 0 ) m_pFhandle = nullptr;
 }
 
 void Logger::Printf_message( const char *fmt, ... ) {
@@ -36,7 +38,7 @@ void Logger::LogError( const char *fmt, ... ) {
 	if( fmt == nullptr ) return; // Exit early as nothing passed in
 
 	va_start( argp, fmt );
-	sprintf_s( outputline, fmt, argp );
+	vsprintf_s( outputline, fmt, argp );
 	va_end( argp );
 
 	if( m_pFhandle != nullptr ) {
@@ -60,7 +62,7 @@ void Logger::Printf_tstamp( const char *fmt, ... ) {
 	if( fmt == nullptr ) return; // Exit early as nothing passed in
 
 	va_start( argp, fmt );
-	sprintf_s( outputline, fmt, argp );
+	vsprintf_s( outputline, fmt, argp );
 	va_end( argp );
 
 	if( m_pFhandle != nullptr ) {
@@ -81,7 +83,7 @@ void Logger::Printf_ntstamp( const char *fmt, ... ) {
 	if( fmt == nullptr ) return; // Exit early as nothing passed in
 
 	va_start( argp, fmt );
-	sprintf_s( outputline, fmt, argp );
+	vsprintf_s( outputline, fmt, argp );
 	va_end( argp );
 
 	if( m_pFhandle != nullptr ) {
@@ -91,3 +93,9 @@ void Logger::Printf_ntstamp( const char *fmt, ... ) {
 	printf( outputline, "\n" );
 }
 
+void Logger::CloseFile() {
+	if( m_pFhandle != nullptr ) {
+		fclose( m_pFhandle );
+		m_pFhandle = nullptr;
+	}
+}

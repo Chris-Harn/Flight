@@ -23,7 +23,7 @@ public:
 	void Printf_tstamp( const char *fmt, ... );
 	void Printf_ntstamp( const char *fmt, ... );
 	inline FILE *GetFileHandle( void ) { return m_pFhandle; }
-	void CloseFile() { fclose( m_pFhandle ); }
+	void CloseFile();
 
 private:
 	Logger();

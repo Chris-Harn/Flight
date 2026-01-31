@@ -16,9 +16,9 @@ Engine::Engine() {
 }
 
 bool Engine::Init() {
-    TheLogger::Instance()->Printf_tstamp( "Flight Version : 0.0.1\n" );
-
     GameConfig config;
+
+    TheLogger::Instance()->Printf_tstamp( "Flight Version : %s\n", config.version );
 
     try { m_pMainWindow = new Window(); }
     catch( const std::bad_alloc &e ) {
