@@ -1,7 +1,7 @@
 #ifndef __GAME__
 #define __GAME__
 
-#ifdef RELEASE    
+#ifndef _DEBUG
     #define TITLE "Flight"
     #define RENDER_X_RESOLUTION 1920
     #define RENDER_Y_RESOLUTION 1080

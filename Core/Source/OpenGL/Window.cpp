@@ -1,11 +1,13 @@
 #include "OpenGL\Window.h"
 #include "Logger.h"
 
+#include "Game.h"
+
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 
 #ifdef _DEBUG
-#include <stdio.h>
+    #include <stdio.h>
 #endif
 
 Window::Window() {
@@ -29,10 +31,7 @@ Window::~Window() {
 
 }
 
-bool Window::Initialization( unsigned int width,
-    unsigned int height,
-    const char *title,
-    bool fullscreen ) {
+bool Window::Initialization( GameConfig &config ) {
     /**************************************************************************/
     /*** Setup Main Window                                                  ***/
     /***                                                                    ***/
@@ -55,14 +54,14 @@ bool Window::Initialization( unsigned int width,
     glfwWindowHint( GLFW_RESIZABLE, GL_FALSE );
 
     GLFWmonitor *monitor;
-    if( fullscreen == true ) {
+    if( config.fullscreen == true ) {
         monitor = glfwGetPrimaryMonitor();
     }
     else {
         monitor = nullptr;
     }
 
-    m_pWindow = glfwCreateWindow( width, height, title, monitor, nullptr );
+    m_pWindow = glfwCreateWindow( config.width, config.height, config.title, monitor, nullptr );
     if( !m_pWindow ) {
         TheLogger::Instance()->LogError( "ERROR: EXIT EARLY: GLFW main window creation failed." );
         glfwTerminate();
