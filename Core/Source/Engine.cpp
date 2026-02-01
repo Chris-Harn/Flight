@@ -80,10 +80,5 @@ void Engine::Clean() {
 }
 
 bool Engine::Running() {
-    static int count = 0;
-    count++;
-
-    if( count > 100000000 ) m_bRunning = false;
-
     return m_bRunning;
 }
