@@ -2,7 +2,7 @@
 
 #include "OpenGL\Window.h"
 
-#include "Logger.h"
+#include "ModernLogger.h"
 #include "Timer.h"
 
 #include "Game.h"
@@ -18,23 +18,24 @@ Engine::Engine() {
 bool Engine::Init() {
     GameConfig config;
 
-    TheLogger::Instance()->Printf_tstamp( "Flight Version : %s\n", config.version );
+    TheMLogger::Instance()->Open( ".\\logs" );
+    TheMLogger::Instance()->Info( "Flight Version : {}", config.version );
 
     try { m_pMainWindow = new Window(); }
     catch( const std::bad_alloc &e ) {
         (void)e;
-        TheLogger::Instance()->LogError( "ERROR: MEMORY ALLOCATION: Main Window failed to allocate on heap." );
+        TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Main Window failed to allocate on heap." );
         return false;
     }
     if( m_pMainWindow->Initialization( config ) != true ) {
-        TheLogger::Instance()->LogError( "ERROR: EXIT EARLY: Main window failed to initalize." );
+        TheMLogger::Instance()->Error( "ERROR: EXIT EARLY: Main window failed to initalize." );
         return false;
     }
 
     try { m_pTimer = new Timer( 60, true ); }
     catch( const std::bad_alloc &e ) {
         (void)e;
-        TheLogger::Instance()->LogError( "ERROR: MEMORY ALLOCATION: Timer failed to allocate on heap." );
+        TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Timer failed to allocate on heap." );
         return false;
     }
     m_pTimer->StartFrame();
@@ -74,8 +75,8 @@ void Engine::Clean() {
         m_pTimer = nullptr;
     }
 
-    TheLogger::Instance()->Printf_tstamp( "Program ended.\n" );
-    TheLogger::Instance()->CloseFile();
+    TheMLogger::Instance()->Info( "Program ended." );
+    TheMLogger::Instance()->CloseFile();
 }
 
 bool Engine::Running() {

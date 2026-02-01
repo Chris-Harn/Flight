@@ -1,14 +1,11 @@
 #include "OpenGL\Window.h"
-#include "Logger.h"
+#include "ModernLogger.h"
 
 #include "Game.h"
 
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 
-#ifdef _DEBUG
-    #include <stdio.h>
-#endif
 
 Window::Window() {
     m_pWindow = nullptr;
@@ -37,7 +34,7 @@ bool Window::Initialization( GameConfig &config ) {
     /***                                                                    ***/
     /**************************************************************************/
     if( glfwInit() == false ) {
-        TheLogger::Instance()->LogError( "ERROR: EXIT EARLY: GLFW Initialization failed." );
+        TheMLogger::Instance()->Error( "ERROR: EXIT EARLY: GLFW Initialization failed." );
         glfwTerminate();
         return false;
     }
@@ -63,7 +60,7 @@ bool Window::Initialization( GameConfig &config ) {
 
     m_pWindow = glfwCreateWindow( config.width, config.height, config.title, monitor, nullptr );
     if( !m_pWindow ) {
-        TheLogger::Instance()->LogError( "ERROR: EXIT EARLY: GLFW main window creation failed." );
+        TheMLogger::Instance()->Error( "ERROR: EXIT EARLY: GLFW main window creation failed." );
         glfwTerminate();
         return false;
     }
@@ -78,7 +75,7 @@ bool Window::Initialization( GameConfig &config ) {
     glewExperimental = GL_TRUE;
 
     if( glewInit() != GLEW_OK ) {
-        TheLogger::Instance()->LogError( "ERROR: EXIT EARLY: GLEW main window initialization failed." );
+        TheMLogger::Instance()->Error( "ERROR: EXIT EARLY: GLEW main window initialization failed." );
         glfwDestroyWindow( m_pWindow );
         glfwTerminate();
         return false;
@@ -170,13 +167,13 @@ void Window::HandleKeys( GLFWwindow *window, int key, int code, int action, int 
         if( action == GLFW_PRESS ) {
             theWindow->m_bKeys[key] = true;
             #ifdef _DEBUG
-                TheLogger::Instance()->Printf_message( "Pressed: %d\n", key );
+                TheMLogger::Instance()->Info( "Pressed: {}", key );
             #endif
         }
         else if( action == GLFW_RELEASE ) {
             theWindow->m_bKeys[key] = false;
             #ifdef _DEBUG
-                TheLogger::Instance()->Printf_message( "Pressed: %d\n", key );
+                TheMLogger::Instance()->Info( "Pressed: {}", key );
             #endif
         }
     }
@@ -186,16 +183,16 @@ void Window::HandleMouse( GLFWwindow *window, double xPos, double yPos ) {
     Window *theWindow = static_cast<Window *>( glfwGetWindowUserPointer( window ) );
 
     if( theWindow->m_bMouseFirstMove ) {
-        theWindow->m_lastX = xPos;
-        theWindow->m_lastY = yPos;
+        theWindow->m_lastX = GLfloat( xPos );
+        theWindow->m_lastY = GLfloat( yPos );
         theWindow->m_bMouseFirstMove = false;
     }
 
-    theWindow->m_xChange = xPos - theWindow->m_lastX;
-    theWindow->m_yChange = theWindow->m_lastY - yPos;
+    theWindow->m_xChange = GLfloat( xPos - theWindow->m_lastX );
+    theWindow->m_yChange = GLfloat( theWindow->m_lastY - yPos );
 
-    theWindow->m_lastX = xPos;
-    theWindow->m_lastY = yPos;
+    theWindow->m_lastX = GLfloat( xPos );
+    theWindow->m_lastY = GLfloat( yPos );
 }
 
 bool Window::IsKeyUp( int key ) {

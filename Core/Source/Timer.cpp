@@ -1,7 +1,8 @@
 #include "Timer.h"
 
+#include "ModernLogger.h"
+
 #include <thread>
-#include <iostream>
 
 void precisionSleepUntil( std::chrono::high_resolution_clock::time_point target );
 
@@ -48,7 +49,7 @@ void Timer::StartFrame() {
         m_currentCountFPS = 0;
         m_startTime = m_currentTime;
 
-        std::cout << "FPS = " << m_lastFPS << " which is " << 1000.0 / m_lastFPS << "ms.\n";
+        TheMLogger::Instance()->Info( "FPS = {} which is {}ms.", m_lastFPS, 1000.0 / m_lastFPS );
     }
 }
 
