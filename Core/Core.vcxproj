@@ -94,14 +94,12 @@
   <ItemGroup>
     <ClCompile Include="Source\ModernLogger.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
-    <ClCompile Include="Source\Logger.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\OpenGL\Window.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Engine.h" />
-    <ClInclude Include="Include\Logger.h" />
     <ClInclude Include="Include\OpenGL\Window.h" />
     <ClInclude Include="Include\Timer.h" />
     <ClInclude Include="Include\ModernLogger.h" />
