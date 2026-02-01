@@ -35,8 +35,8 @@ void Timer::StartFrame() {
         // Compute next frame time without drift
         m_nextFrameTime = m_startTime + m_currentCountFPS * std::chrono::duration_cast<std::chrono::high_resolution_clock::duration>( m_frameTime );
         std::this_thread::sleep_until( m_nextFrameTime );
-        precisionSleepUntil( m_nextFrameTime );
-        //m_currentTime = std::chrono::high_resolution_clock::now();
+        //precisionSleepUntil( m_nextFrameTime );
+        m_currentTime = std::chrono::high_resolution_clock::now();
     }
 
     // Calculate the fps once per second
