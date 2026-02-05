@@ -30,7 +30,7 @@ bool Engine::Init() {
         TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Main Window failed to allocate on heap." );
         return false;
     }
-    if( m_pMainWindow->Initialization( config ) != true ) {
+    if( m_pMainWindow->Initialization( &config ) != true ) {
         TheMLogger::Instance()->Error( "ERROR: EXIT EARLY: Main window failed to initalize." );
         return false;
     }

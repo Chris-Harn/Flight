@@ -10,7 +10,7 @@ class Window {
 public:
     Window();
     ~Window();
-    bool Initialization( GameConfig &config );
+    bool Initialization( GameConfig *config );
     void ClearColorBuffer();
     void SwapBuffers();
     void PollEvents();
