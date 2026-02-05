@@ -1,5 +1,7 @@
 #include "OpenGL/ResourceManager.h"
 
+#include "ModernLogger.h"
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -24,7 +26,7 @@ Shader *ResourceManager::LoadShader( const char *vShaderFile, const char *fShade
     temp = LoadShaderFromFiles( vShaderFile, fShaderFile, gShaderFile );
 
     if( temp == nullptr ) {
-        printf( "Failed to compile %s.\n", name.c_str() );
+        TheMLogger::Instance()->Error( "Failed to compile {} in LoadSHader( vShaderFile, fShaderFile, gShaderFile, std::string name).", name.c_str() );
         return m_Shaders[name] = new Shader( *m_Shaders["CautionImage"] );
     }
 
@@ -44,7 +46,7 @@ Shader *ResourceManager::LoadShader( const char *ShaderFile, std::string name ) 
     temp = LoadShaderFromFile( ShaderFile );
 
     if( temp == nullptr ) {
-        printf( "Failed to compile %s.\n", name.c_str() );
+        TheMLogger::Instance()->Error( "Failed to compile {} in LoadShader( ShaderFile, std::string name).", name.c_str() );
         return m_Shaders[name] = new Shader( *m_Shaders["CautionImage"] );
     }
 
@@ -152,7 +154,7 @@ Shader *ResourceManager::LoadShaderFromFiles( const char *vShaderFile, const cha
 
     }
     catch( std::exception e ) {
-        printf( "ERROR::SHADER: Failed to read shader files.\n" );
+        TheMLogger::Instance()->Error( "ERROR::SHADER: Failed to read shader files." );
     }
     const char *vShaderCode = vertexCode.c_str();
     const char *fShaderCode = fragmentCode.c_str();
@@ -199,13 +201,13 @@ Shader *ResourceManager::LoadShaderFromFile( const char *shaderFile ) {
                 }
                 else {
                     // Error state, return null
-                    std::cout << "Didn't recieve shader type." << std::endl;
+                    TheMLogger::Instance()->Error( "Didn't recieve shader type." );
                 }
             }
         }
     }
     catch( std::exception e ) {
-        printf( "ERROR::SHADER: Failed to read shader files.\n" );
+        TheMLogger::Instance()->Error( "ERROR::SHADER: Failed to read shader file in LoadShaderFromFile( shaderFile )." );
     }
     std::string vertexCode = ss[(int)ShaderType::VERTEX].str();
     std::string fragmentCode = ss[(int)ShaderType::FRAGMENT].str();
@@ -223,7 +225,7 @@ Shader *ResourceManager::LoadShaderFromFile( const char *shaderFile ) {
 }
 
 void ResourceManager::ReloadShaders() {
-    printf( "Reloading shaders.\n" );
+    TheMLogger::Instance()->Info( "Reloading shaders." );
 
     // Delete Previous Shaders
     for( auto iter : m_Shaders ) {

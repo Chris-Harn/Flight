@@ -1,10 +1,12 @@
 #include "OpenGL/Shader.h"
 
+#include "ModernLogger.h"
+
 #include <string>
-#include <stdio.h>  // printf
 #include <fstream>
 #include <sstream>
 #include <iostream>
+
 
 #include <GL/glew.h>
 
@@ -32,7 +34,7 @@ bool Shader::Compile( const char *vertexCode, const char *fragmentCode, const ch
     m_shaderID = glCreateProgram();
 
     if( !m_shaderID ) {
-        printf( "Error creating shader program!\n" );
+        TheMLogger::Instance()->Error( "Error creating shader program!" );
         return false;
     }
 
@@ -58,7 +60,7 @@ bool Shader::Compile( const char *vertexCode, const char *fragmentCode, const ch
 
     if( !result ) {
         glGetProgramInfoLog( m_shaderID, sizeof( eLog ), NULL, eLog );
-        printf( "Error linking program: '%s'\n", eLog );
+        TheMLogger::Instance()->Error( "Error linking program: {}", eLog );
         return false;
     }
 
@@ -66,9 +68,9 @@ bool Shader::Compile( const char *vertexCode, const char *fragmentCode, const ch
     // of opengl
     glGetProgramiv( m_shaderID, GL_VALIDATE_STATUS, &result );
 
-    if( result ) {
+    if( !result ) {
         glGetProgramInfoLog( m_shaderID, sizeof( eLog ), NULL, eLog );
-        printf( "Error validating program: '%s'\n", eLog );
+        TheMLogger::Instance()->Error( "Error validating program: {}", eLog );
         return false;
     }
 
@@ -98,7 +100,7 @@ bool Shader::AddShader( unsigned int theProgram, const char *shaderCode, unsigne
 
     if( !result ) {
         glGetShaderInfoLog( theShader, sizeof( eLog ), NULL, eLog );
-        printf( "Error compiling the %d shader: '%s'\n", shaderType, eLog );
+        TheMLogger::Instance()->Error( "Error compiling the {} shader: {}", shaderType, eLog );
         return false;
     }
 

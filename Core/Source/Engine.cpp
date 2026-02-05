@@ -23,6 +23,7 @@ Engine *Engine::s_pInstance = 0;
 Engine::Engine() {
     m_bRunning = false;
     m_pMainWindow = nullptr;
+    m_pCamera = nullptr;
     m_pTimer = nullptr;
 }
 
@@ -51,22 +52,22 @@ bool Engine::Init() {
     }
     m_pCamera->m_projection = glm::perspective( 45.0f, m_pMainWindow->GetBufferWidth() / m_pMainWindow->GetBufferHeight(), 0.1f, 100.0f );
 
-    //// Load Shaders, framebuffers, and other resources... 
-    //ResourceManager::LoadShader( "Resource/Shaders/CautionStrips.glsl", "CautionImage" ); // 0. Shader compile error
+    // Load Shaders, framebuffers, and other resources... 
+    ResourceManager::LoadShader( "Resource/Shaders/CautionStrips.glsl", "CautionImage" ); // 0. Shader compile error
 
-    //ResourceManager::LoadShader( "Resource/Shaders/BlitImageToScreen.glsl", "BlitScreen" );
-    //ResourceManager::GetShader( "BlitScreen" )->SetInteger( "u_Texture", 0, true );
+    ResourceManager::LoadShader( "Resource/Shaders/BlitImageToScreen.glsl", "BlitScreen" );
+    ResourceManager::GetShader( "BlitScreen" )->SetInteger( "u_Texture", 0, true );
 
-    //ResourceManager::LoadShader( "Resource/Shaders/FastBlitTextToScreen.glsl", "FastBlitText" );
-    //ResourceManager::GetShader( "FastBlitText" )->SetInteger( "text", 0, true );
+    ResourceManager::LoadShader( "Resource/Shaders/FastBlitTextToScreen.glsl", "FastBlitText" );
+    ResourceManager::GetShader( "FastBlitText" )->SetInteger( "text", 0, true );
 
-    //try { m_pTextRenderer = new TextRenderer(); }
-    //catch( const std::bad_alloc &e ) {
-    //    (void)e;
-    //    TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Text Rendererer failed to allocate on heap." );
-    //    return false;
-    //}
-    //m_pTextRenderer->Initialize( m_pMainWindow );
+    try { m_pTextRenderer = new TextRenderer(); }
+    catch( const std::bad_alloc &e ) {
+        (void)e;
+        TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Text Rendererer failed to allocate on heap." );
+        return false;
+    }
+    m_pTextRenderer->Initialize( m_pMainWindow );
 
     try { m_pTimer = new Timer( 60, false ); }
     catch( const std::bad_alloc &e ) {
@@ -122,7 +123,7 @@ void Engine::Clean() {
         m_pCamera = nullptr;
     }
 
-    //ResourceManager::Clean();
+    ResourceManager::Clean();
 
     TheMLogger::Instance()->Info( "Program ended." );
     TheMLogger::Instance()->CloseFile();

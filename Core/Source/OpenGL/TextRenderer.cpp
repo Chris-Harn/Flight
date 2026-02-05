@@ -9,7 +9,7 @@
 
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::scale
 
-#include <stdio.h>
+#include "ModernLogger.h"
 
 struct Character {
     int TextureID;
@@ -26,13 +26,13 @@ TextRenderer::TextRenderer() {
 
     FT_Library ft;
     if( FT_Init_FreeType( &ft ) ) {
-        printf( "ERROR::FREETYPE: Could not init FreeType Library.\n" );
+        TheMLogger::Instance()->Error( "ERROR::FREETYPE: Could not init FreeType Library." );
         return;
     }
 
     FT_Face face;
     if( FT_New_Face( ft, "Resource/Font/arial.ttf", 0, &face ) ) {
-        printf( "ERROR::FREETYPE: Failed to load font.\n" );
+        TheMLogger::Instance()->Error( "ERROR::FREETYPE: Failed to load font." );
         return;
     }
 
@@ -47,7 +47,7 @@ TextRenderer::TextRenderer() {
 
     for( unsigned char c = 0; c < 128; c++ ) {
         if( FT_Load_Char( face, c, FT_LOAD_RENDER ) ) {
-            printf( "ERROR::FREETYPE: Failed to load Glyph.\n" );
+            TheMLogger::Instance()->Error( "ERROR::FREETYPE: Failed to load Glyph." );
             return;
         }
 

@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 
-#include <stdio.h>
+#include "ModernLogger.h"
 
 Framebuffer::Framebuffer() {
     m_FboID = 0;
@@ -33,7 +33,7 @@ Framebuffer::Framebuffer( unsigned int fbo_width, unsigned int fbo_height ) {
 
     GLenum status = glCheckFramebufferStatus( GL_FRAMEBUFFER );
     if( status != GL_FRAMEBUFFER_COMPLETE ) {
-        printf( "*** Framebuffer failed to be created. %i.\n", status );
+        TheMLogger::Instance()->Error( "*** Framebuffer failed to be created. {}.", status );
     }
 
     glBindFramebuffer( GL_FRAMEBUFFER, 0 );
