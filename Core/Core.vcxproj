@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\OpenGL\Helper.cpp" />
     <ClCompile Include="Source\OpenGL\Camera.cpp" />
     <ClCompile Include="Source\OpenGL\Framebuffer.cpp" />
     <ClCompile Include="Source\OpenGL\Mesh.cpp" />
@@ -107,6 +108,7 @@
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\OpenGL\Helper.h" />
     <ClInclude Include="Include\OpenGL\Camera.h" />
     <ClInclude Include="Include\OpenGL\Framebuffer.h" />
     <ClInclude Include="Include\Engine.h" />

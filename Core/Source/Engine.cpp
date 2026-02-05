@@ -1,14 +1,11 @@
 #include "Engine.h"
 
 // OpenGL Utilities
-#include "OpenGL/Window.h"
-#include "OpenGL/Camera.h"
-#include "OpenGL/TextRenderer.h"
 #include "OpenGL/ResourceManager.h"
+#include "OpenGL/Helper.h"
 
 // Utilities
 #include "ModernLogger.h"
-#include "Timer.h"
 
 // Future remove
 #include <glm/glm.hpp>
@@ -24,6 +21,7 @@ Engine::Engine() {
     m_bRunning = false;
     m_pMainWindow = nullptr;
     m_pCamera = nullptr;
+    m_pTextRenderer = nullptr;
     m_pTimer = nullptr;
 }
 
@@ -100,6 +98,8 @@ void Engine::HandleEvents() {
 void Engine::Render() {
     m_pMainWindow->ClearColorBuffer();
 
+    DisplayPerformanceInformation();
+
     m_pMainWindow->SwapBuffers();
 }
 
@@ -113,11 +113,11 @@ void Engine::Clean() {
         delete m_pTimer;
         m_pTimer = nullptr;
     }
-    //if( m_pTextRenderer != nullptr ) {
-    //    m_pTextRenderer->Clean();
-    //    delete m_pTextRenderer;
-    //    m_pTextRenderer = nullptr;
-    //}
+    if( m_pTextRenderer != nullptr ) {
+        m_pTextRenderer->Clean();
+        delete m_pTextRenderer;
+        m_pTextRenderer = nullptr;
+    }
     if( m_pCamera != nullptr ) {
         delete m_pCamera;
         m_pCamera = nullptr;

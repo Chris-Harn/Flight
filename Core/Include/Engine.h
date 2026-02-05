@@ -3,12 +3,11 @@
 
 class Shader;
 class Mesh;
-//#include "OpenGL/Camera.h"
-//#include "OpenGL/TextRenderer.h"
-class Window;
-class Camera;
-class TextRenderer;
-class Timer;
+#include "OpenGL/Window.h"
+#include "OpenGL/Camera.h"
+#include "OpenGL/TextRenderer.h"
+#include "Timer.h"
+
 
 class Engine {
 public:
@@ -34,13 +33,13 @@ private:
     // Controls
     bool m_bRunning;
 
-    // Renderer
+public: 
+    // OpenGL Items
     Window *m_pMainWindow;
     TextRenderer *m_pTextRenderer;
     Camera *m_pCamera;
 
-    // Systems
-
+    // Engine Systems
     Timer *m_pTimer;
 };
 
