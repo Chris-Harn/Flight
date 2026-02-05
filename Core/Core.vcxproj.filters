@@ -30,9 +30,6 @@
     <ClCompile Include="Source\ModernLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\LoadGameFiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\OpenGL\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,6 +51,9 @@
     <ClCompile Include="Source\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\OpenGL\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Timer.h">
@@ -66,9 +66,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\ModernLogger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\LoadGameFiles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\OpenGL\Shader.h">
@@ -92,5 +89,15 @@
     <ClInclude Include="Include\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\OpenGL\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\Shaders\BlitImageToScreen.glsl" />
+    <None Include="Resource\Shaders\CautionStrips.glsl" />
+    <None Include="Resource\Shaders\FastBlitTextToScreen.glsl" />
+    <None Include="Resource\Shaders\Light.glsl" />
+    <None Include="Resource\Shaders\SimpleLight.glsl" />
   </ItemGroup>
 </Project>

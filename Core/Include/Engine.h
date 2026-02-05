@@ -1,7 +1,13 @@
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
 
+class Shader;
+class Mesh;
+//#include "OpenGL/Camera.h"
+//#include "OpenGL/TextRenderer.h"
 class Window;
+class Camera;
+class TextRenderer;
 class Timer;
 
 class Engine {
@@ -30,6 +36,8 @@ private:
 
     // Renderer
     Window *m_pMainWindow;
+    TextRenderer *m_pTextRenderer;
+    Camera *m_pCamera;
 
     // Systems
 

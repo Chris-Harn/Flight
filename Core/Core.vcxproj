@@ -92,11 +92,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\OpenGL\Camera.cpp" />
     <ClCompile Include="Source\OpenGL\Framebuffer.cpp" />
     <ClCompile Include="Source\OpenGL\Mesh.cpp" />
     <ClCompile Include="Source\OpenGL\ResourceManager.cpp" />
     <ClCompile Include="Source\OpenGL\Shader.cpp" />
-    <ClCompile Include="Source\LoadGameFiles.cpp" />
     <ClCompile Include="Source\ModernLogger.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -107,18 +107,25 @@
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\OpenGL\Camera.h" />
     <ClInclude Include="Include\OpenGL\Framebuffer.h" />
     <ClInclude Include="Include\Engine.h" />
     <ClInclude Include="Include\OpenGL\Window.h" />
     <ClInclude Include="Include\stb_image.h" />
     <ClInclude Include="Include\Timer.h" />
     <ClInclude Include="Include\ModernLogger.h" />
-    <ClInclude Include="Include\LoadGameFiles.h" />
     <ClInclude Include="Include\OpenGL\Shader.h" />
     <ClInclude Include="Include\OpenGL\TextRenderer.h" />
     <ClInclude Include="Include\OpenGL\ResourceManager.h" />
     <ClInclude Include="Include\OpenGL\Texture.h" />
     <ClInclude Include="Include\OpenGL\Mesh.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\Shaders\BlitImageToScreen.glsl" />
+    <None Include="Resource\Shaders\CautionStrips.glsl" />
+    <None Include="Resource\Shaders\FastBlitTextToScreen.glsl" />
+    <None Include="Resource\Shaders\Light.glsl" />
+    <None Include="Resource\Shaders\SimpleLight.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
