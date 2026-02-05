@@ -40,6 +40,7 @@ void Timer::StartFrame() {
 
         // Alternative sleep. Uses more clock cycles.
         //precisionSleepUntil( m_nextFrameTime );
+        //m_currentTime = std::chrono::high_resolution_clock::now();
     }
 
     // Calculate the fps once per second
