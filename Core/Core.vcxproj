@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\LoadGameFiles.cpp" />
     <ClCompile Include="Source\ModernLogger.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="Include\OpenGL\Window.h" />
     <ClInclude Include="Include\Timer.h" />
     <ClInclude Include="Include\ModernLogger.h" />
+    <ClInclude Include="Include\LoadGameFiles.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

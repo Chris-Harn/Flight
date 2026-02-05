@@ -1,10 +1,13 @@
 #include "Engine.h"
 
+// OpenGL Utilities
 #include "OpenGL\Window.h"
 
+// Utilities
 #include "ModernLogger.h"
 #include "Timer.h"
 
+// Game Specific Files
 #include "Game.h"
 
 Engine *Engine::s_pInstance = 0;
