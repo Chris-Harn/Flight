@@ -1,6 +1,6 @@
 #include "Timer.h"
 
-#include "ModernLogger.h"
+//#include "ModernLogger.h"
 
 #include <thread>
 
@@ -50,7 +50,7 @@ void Timer::StartFrame() {
         m_lastFPS = m_currentCountFPS;
         m_currentCountFPS = 0;
         m_startTime = m_currentTime;
-        TheMLogger::Instance()->Info( "FPS = {} which is {}ms.", m_lastFPS, 1000.0 / m_lastFPS );
+        //TheMLogger::Instance()->Info( "FPS = {} which is {}ms.", m_lastFPS, 1000.0 / m_lastFPS );
 
         // Uncomment to see how accurate the delta time is... should be extremely close to 1000 ms. 
         //TheMLogger::Instance()->Info( "Delta Time : {}ms", GetDeltaTime() );
