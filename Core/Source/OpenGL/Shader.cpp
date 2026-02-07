@@ -5,15 +5,14 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <iostream>
-
 
 #include <GL/glew.h>
 
 enum class ShaderType {
     NONE = -1,
     VERTEX = 0,
-    FRAGMENT = 1
+    FRAGMENT = 1,
+    GEOMETRY = 2
 };
 
 Shader::Shader() {
@@ -45,8 +44,8 @@ bool Shader::Compile( const char *vertexCode, const char *fragmentCode, const ch
     if( AddShader( m_shaderID, fragmentCode, GL_FRAGMENT_SHADER ) == false ) return false;
 
     if( geometryCode != nullptr ) {
-        // Compile fragment shader and add to program
-        AddShader( m_shaderID, geometryCode, GL_GEOMETRY_SHADER );
+        // Compile geometry shader and add to program
+        if( AddShader( m_shaderID, geometryCode, GL_GEOMETRY_SHADER ) == false ) return false;
     }
 
     // Check error information for compiling shader programs
@@ -64,15 +63,15 @@ bool Shader::Compile( const char *vertexCode, const char *fragmentCode, const ch
         return false;
     }
 
-    // Check if shader created is valid in the current version/context
-    // of opengl
-    glGetProgramiv( m_shaderID, GL_VALIDATE_STATUS, &result );
+    //// Check if shader created is valid in the current version/context
+    //// of opengl
+    //glGetProgramiv( m_shaderID, GL_VALIDATE_STATUS, &result );
 
-    if( !result ) {
-        glGetProgramInfoLog( m_shaderID, sizeof( eLog ), NULL, eLog );
-        TheMLogger::Instance()->Error( "Error validating program: {}", eLog );
-        return false;
-    }
+    //if( result ) {
+    //    glGetProgramInfoLog( m_shaderID, sizeof( eLog ), NULL, eLog );
+    //    TheMLogger::Instance()->Error( "Error validating program: {}", eLog );
+    //    return false;
+    //}
 
     return true;
 }

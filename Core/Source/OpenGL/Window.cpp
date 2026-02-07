@@ -6,7 +6,6 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 
-
 Window::Window() {
     m_pWindow = nullptr;
     m_BufferWidth = 0;
