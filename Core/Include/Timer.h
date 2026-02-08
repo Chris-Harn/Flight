@@ -11,26 +11,26 @@ public:
     void StartFrame();
     double GetDeltaTime();
     int GetFPSValue();
+    bool GetRegulationValue();
+    void RegulateFPS( bool regulateThisFPS ); 
 
     // Prevent copying
     Timer( const Timer& ) = delete;
     Timer &operator=( const Timer& ) = delete;
 private:
     // Variables for regulating the framerate
-    bool m_bRegulateTheFPS;
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_nextFrameTime;
-    std::chrono::duration<double> m_frameTime; // milliseconds between frames
+    int m_targetThisFPS;
+    bool m_bRegulateFPS;
+    std::chrono::milliseconds m_frameDuration;
+    std::chrono::high_resolution_clock::time_point m_lastFrameTime; // milliseconds between frames
 
     // Variables for calculating delta time
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_lastDeltaTime;
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_currentDeltaTime;
+    double m_deltaTime;
 
     // Variables for calculating frame rate variables
-    unsigned int m_currentCountFPS;
-    unsigned int m_lastFPS;
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_startTime;
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_lastFrameTime;
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_currentTime;
+    int m_frames;
+    int m_fps;
+    std::chrono::high_resolution_clock::time_point m_lastSecondTime;// milliseconds between frames
 };
 
 #endif

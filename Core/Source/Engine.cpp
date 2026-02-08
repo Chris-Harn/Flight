@@ -69,7 +69,7 @@ bool Engine::Init() {
     }
     m_pTextRenderer->Initialize( m_pMainWindow );
     
-    try { m_pTimer = new Timer( 60, false ); }
+    try { m_pTimer = new Timer( 60, true ); }
     catch( const std::bad_alloc &e ) {
         (void)e;
         TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Timer failed to allocate on heap." );
@@ -94,6 +94,56 @@ void Engine::HandleEvents() {
         ( m_pMainWindow->GetShouldClose() == true ) ) {
         m_bRunning = false; // GLFW_KEY_ESCAPE
     }
+
+    /*****************************************************/
+    /*****************************************************/
+    // TEMP CODE - Should not have any glew code in main 
+    // areas
+ 
+    // Toggle VSYNC on
+    if( m_pMainWindow->GetsKeys()[GLFW_KEY_N] == true ) {
+        m_pMainWindow->ToggleVsync( true );
+    }
+
+    // Toggle VSYNC off
+    if( m_pMainWindow->GetsKeys()[GLFW_KEY_M] == true ) {
+        m_pMainWindow->ToggleVsync( false );
+    }
+
+    // Toggle FPS regulator on
+    if( m_pMainWindow->GetsKeys()[GLFW_KEY_V] == true ) {
+        m_pTimer->RegulateFPS( true );
+    }
+
+    // Toggle FPS regulator off
+    if( m_pMainWindow->GetsKeys()[GLFW_KEY_B] == true ) {
+        m_pTimer->RegulateFPS( false );
+    }
+
+    // Toggle Wireframe Mode on
+    if( m_pMainWindow->GetsKeys()[GLFW_KEY_COMMA] == true ) {
+        m_pMainWindow->ToggleWireFrame( true );
+    }
+
+    // Toggle Wireframe Mode off
+    if( m_pMainWindow->GetsKeys()[GLFW_KEY_PERIOD] == true ) {
+        m_pMainWindow->ToggleWireFrame( false );
+    }
+
+    // Toggle GL_CULL_FACE Mode on/off
+    static bool cullClockwiseTriangles = false;
+    if( m_pMainWindow->GetsKeys()[59] == true ) {
+        cullClockwiseTriangles = !cullClockwiseTriangles;
+        m_pMainWindow->GetsKeys()[59] = false;
+    }
+
+    if( cullClockwiseTriangles == true ) {
+        // Won't stay enabled, so have to check it and enable it 
+        // each frame.
+        glEnable( GL_CULL_FACE );
+    }
+    /*****************************************************/
+    /*****************************************************/
 
     m_pCamera->KeyControl( m_pMainWindow->GetsKeys(), m_pTimer->GetDeltaTime() );
     m_pCamera->MouseControl( m_pMainWindow->GetXChange(), m_pMainWindow->GetYChange() );
