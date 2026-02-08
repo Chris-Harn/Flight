@@ -20,8 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Game.h" />
+    <ClInclude Include="Include\SceneGraph.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\SceneGraph.cpp" />
     <ClCompile Include="Source\Game.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -86,13 +88,15 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\GameLib\</OutDir>
     <IntDir>$(SolutionDir)\Bin\Intermediates\Game\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Game\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Game\Include;$(SolutionDir)\Core\Include;$(SolutionDir)\External Dependances\GLEW\x64\include;$(SolutionDir)\External Dependances\GLM\x64\include;$(SolutionDir)\External Dependances\GLFW\x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\External Dependances\GLEW\x64\lib;$(SolutionDir)\External Dependances\GLFW\x64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\GameLib\</OutDir>
     <IntDir>$(SolutionDir)\Bin\Intermediates\Game\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Game\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Game\Include;$(SolutionDir)\Core\Include;$(SolutionDir)\External Dependances\GLEW\x64\include;$(SolutionDir)\External Dependances\GLM\x64\include;$(SolutionDir)\External Dependances\GLFW\x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\External Dependances\GLEW\x64\lib;$(SolutionDir)\External Dependances\GLFW\x64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
