@@ -76,7 +76,7 @@ bool Engine::Init() {
     }
     m_pTimer->StartFrame();
 
-    SetupTempAssets();
+    if( SetupTempAssets() == false ) return false;
 
     // Everything started up without issue...
     m_bRunning = true;
@@ -88,8 +88,6 @@ void Engine::HandleEvents() {
     m_pTimer->StartFrame();
     m_pMainWindow->PollEvents();
 
-    UpdateTempAssets();
-
     // Close Window Commands
     if( ( m_pMainWindow->GetsKeys()[256] == true ) ||
         ( m_pMainWindow->GetShouldClose() == true ) ) {
@@ -98,6 +96,8 @@ void Engine::HandleEvents() {
 
     m_pCamera->KeyControl( m_pMainWindow->GetsKeys(), m_pTimer->GetDeltaTime() );
     m_pCamera->MouseControl( m_pMainWindow->GetXChange(), m_pMainWindow->GetYChange() );
+
+    UpdateTempAssets();
 }
 
 void Engine::Render() {
@@ -134,6 +134,8 @@ void Engine::Clean() {
 
     TheMLogger::Instance()->Info( "Program ended." );
     TheMLogger::Instance()->CloseFile();
+
+    CleanTempAssets();
 }
 
 bool Engine::Running() {
