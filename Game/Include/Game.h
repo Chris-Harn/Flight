@@ -7,7 +7,7 @@
     #define TITLE "Flight"
     #define RENDER_X_RESOLUTION 1920
     #define RENDER_Y_RESOLUTION 1080
-    #define FULL_SCREEN true
+    #define FULL_SCREEN false
 #else 
     #define TITLE "Flight (Debug)"
     #define RENDER_X_RESOLUTION 1280

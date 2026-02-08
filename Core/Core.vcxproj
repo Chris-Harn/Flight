@@ -96,6 +96,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RandomGenerator.cpp" />
     <ClCompile Include="Source\OpenGL\Helper.cpp" />
     <ClCompile Include="Source\OpenGL\Camera.cpp" />
     <ClCompile Include="Source\OpenGL\Framebuffer.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="Include\OpenGL\ResourceManager.h" />
     <ClInclude Include="Include\OpenGL\Texture.h" />
     <ClInclude Include="Include\OpenGL\Mesh.h" />
+    <ClInclude Include="Include\RandomGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\Shaders\BlitImageToScreen.glsl" />
