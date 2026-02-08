@@ -18,7 +18,6 @@
 /* These are temporary functions and assets that will eventually be removed.*/
 /* Same with the assets being global. */
 //Terrain *m_pTerrain;
-RandomGenerator *m_pRandomGenerator;
 Mesh *m_pPyramid;
 Mesh *m_pWater;
 Mesh *m_pCube;
@@ -30,7 +29,6 @@ void RenderTempAssets();
 
 bool SetupTempAssets() {
     m_pWater = nullptr;
-    m_pRandomGenerator = nullptr;
     m_pPyramid = nullptr;
     m_pWater = nullptr;
     m_pCube = nullptr;
@@ -155,14 +153,9 @@ bool SetupTempAssets() {
     m_pWater->m_model = glm::translate( m_pWater->m_model, glm::vec3( 0.0f, -5.0f, 250.0f ) );
     m_pWater->m_model = glm::scale( m_pWater->m_model, glm::vec3( 1000.0f, 1000.0f, 1000.0f ) );
 
-    try { m_pRandomGenerator = new RandomGenerator(); }
-    catch( const std::bad_alloc &e ) {
-        (void)e;
-        TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Random Generator failed to allocate on heap." );
-        return false;
-    }
-    unsigned char *dataUchar = m_pRandomGenerator->GenerateGridUChar( 128 );
-    float *dataf = m_pRandomGenerator->GenerateGridFloat( 128 );
+
+    unsigned char *dataUchar = TheRandomGenerator::Instance()->GenerateGridUChar( 128 );
+    float *dataf = TheRandomGenerator::Instance()->GenerateGridFloat( 128 );
 
     //try { m_pTerrain = new Terrain(); }
     //catch( const std::bad_alloc &e ) {
@@ -234,10 +227,6 @@ void RenderTempAssets() {
 }
 
 void CleanTempAssets() { 
-    if( m_pRandomGenerator != nullptr ) {
-        delete m_pRandomGenerator;
-        m_pRandomGenerator = nullptr;
-    }
     if( m_pPyramid != nullptr ) {
         m_pPyramid->Clean();
         delete m_pPyramid;

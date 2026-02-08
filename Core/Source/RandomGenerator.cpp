@@ -3,6 +3,9 @@
 #include <iostream> // time
 #include <cstdlib> // srand
 
+
+RandomGenerator *RandomGenerator::s_pInstance = 0;
+
 RandomGenerator::RandomGenerator() {
     // Seed generator
     srand( (unsigned)time( nullptr ) );

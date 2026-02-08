@@ -8,7 +8,6 @@ class Mesh;
 #include "OpenGL/TextRenderer.h"
 #include "Timer.h"
 
-
 class Engine {
 public:
     static Engine *Instance() {

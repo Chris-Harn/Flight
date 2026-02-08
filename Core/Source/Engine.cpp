@@ -6,6 +6,7 @@
 
 // Utilities
 #include "ModernLogger.h"
+#include "RandomGenerator.h"
 
 // Future remove
 #include <glm/glm.hpp>
@@ -67,7 +68,7 @@ bool Engine::Init() {
         return false;
     }
     m_pTextRenderer->Initialize( m_pMainWindow );
-
+    
     try { m_pTimer = new Timer( 60, false ); }
     catch( const std::bad_alloc &e ) {
         (void)e;
