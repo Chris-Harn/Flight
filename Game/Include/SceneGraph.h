@@ -4,7 +4,7 @@
 #include "Engine.h"
 #include "OpenGL/Mesh.h"
 #include "OpenGL/ResourceManager.h"
-//#include "OpenGL/Terrain.h"
+#include "OpenGL/Terrain.h"
 #include "ModernLogger.h"
 #include "RandomGenerator.h"
 
@@ -17,7 +17,7 @@
 
 /* These are temporary functions and assets that will eventually be removed.*/
 /* Same with the assets being global. */
-//Terrain *m_pTerrain;
+Terrain *m_pTerrain;
 Mesh *m_pPyramid;
 Mesh *m_pWater;
 Mesh *m_pCube;
@@ -157,12 +157,12 @@ bool SetupTempAssets() {
     unsigned char *dataUchar = TheRandomGenerator::Instance()->GenerateGridUChar( 128 );
     float *dataf = TheRandomGenerator::Instance()->GenerateGridFloat( 128 );
 
-    //try { m_pTerrain = new Terrain(); }
-    //catch( const std::bad_alloc &e ) {
-    //    (void)e;
-    //    TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Terrain failed to allocate on heap." );
-    //    return false;
-    //}
+    try { m_pTerrain = new Terrain(); }
+    catch( const std::bad_alloc &e ) {
+        (void)e;
+        TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Terrain failed to allocate on heap." );
+        return false;
+    }
 
     return true;
 }
