@@ -14,6 +14,7 @@
 
 // Game Specific Files
 #include "Game.h"
+#include "SceneGraph.h"
 
 Engine *Engine::s_pInstance = 0;
 
@@ -75,6 +76,8 @@ bool Engine::Init() {
     }
     m_pTimer->StartFrame();
 
+    SetupTempAssets();
+
     // Everything started up without issue...
     m_bRunning = true;
 
@@ -84,6 +87,8 @@ bool Engine::Init() {
 void Engine::HandleEvents() {
     m_pTimer->StartFrame();
     m_pMainWindow->PollEvents();
+
+    UpdateTempAssets();
 
     // Close Window Commands
     if( ( m_pMainWindow->GetsKeys()[256] == true ) ||
@@ -97,6 +102,8 @@ void Engine::HandleEvents() {
 
 void Engine::Render() {
     m_pMainWindow->ClearColorBuffer();
+
+    RenderTempAssets();
 
     DisplayPerformanceInformation();
 
