@@ -13,12 +13,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#define TESTNUMBEROFCUBES 100000
+
 /* These are temporary functions and assets that will eventually be removed.*/
 /* Same with the assets being global. */
 Mesh *m_pPyramid;
 Mesh *m_pGround;
-Mesh *m_pCube;
 Mesh *m_pLight;
+Mesh *m_pCube[TESTNUMBEROFCUBES];
 
 bool SetupTempAssets();
 void UpdateTempAssets();
@@ -27,8 +29,11 @@ void RenderTempAssets();
 bool SetupTempAssets() {
     m_pGround = nullptr;
     m_pPyramid = nullptr;
-    m_pCube = nullptr;
     m_pLight = nullptr;
+
+    for( int i = 0; i < TESTNUMBEROFCUBES; i++ ) {
+        m_pCube[i] = nullptr;
+    }
 
     ResourceManager::LoadShader( "Resource/Shaders/Light.glsl", "Light" ); // Light
     ResourceManager::LoadShader( "Resource/Shaders/SimpleLight.glsl", "SimpleLight" ); // Phong Lighting = Diffuse + Ambient + Specular
@@ -114,13 +119,13 @@ bool SetupTempAssets() {
         -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
          0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f
     };
-    try { m_pCube = new Mesh(); }
+    try { m_pCube[0] = new Mesh(); }
     catch( const std::bad_alloc &e ) {
         (void)e;
         TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Cube failed to allocate on heap." );
         return false;
     }
-    m_pCube->CreateMesh( vertices2, 216 );
+    m_pCube[0]->CreateMesh( vertices2, 216 );
 
     try { m_pLight = new Mesh(); }
     catch( const std::bad_alloc &e ) {
@@ -155,10 +160,10 @@ bool SetupTempAssets() {
 void UpdateTempAssets() {
     // Update Objects
     static float angle = 360.0f / 3.141565f;
-    m_pCube->m_model = glm::mat4( 1.0f );
-    m_pCube->m_model = glm::translate( m_pCube->m_model, glm::vec3( -1.0f, 0.0f, -4.0f ) );
-    m_pCube->m_model = glm::scale( m_pCube->m_model, glm::vec3( 2.0f, 2.0f, 2.0f ) );
-    m_pCube->m_model = glm::rotate( m_pCube->m_model, angle * 0.5f, glm::vec3( 0.1f, -0.5f, 1.0f ) );
+    m_pCube[0]->m_model = glm::mat4( 1.0f );
+    m_pCube[0]->m_model = glm::translate( m_pCube[0]->m_model, glm::vec3( -1.0f, 0.0f, -4.0f ) );
+    m_pCube[0]->m_model = glm::scale( m_pCube[0]->m_model, glm::vec3( 2.0f, 2.0f, 2.0f ) );
+    m_pCube[0]->m_model = glm::rotate( m_pCube[0]->m_model, angle * 0.5f, glm::vec3( 0.1f, -0.5f, 1.0f ) );
     m_pPyramid->m_model = glm::mat4( 1.0f );
     m_pPyramid->m_model = glm::translate( m_pPyramid->m_model, glm::vec3( 1.0f, 1.0f, -1.5f ) );
     m_pPyramid->m_model = glm::rotate( m_pPyramid->m_model, angle * 0.1f, glm::vec3( 0.0f, 1.0f, 0.0f ) );
@@ -195,12 +200,12 @@ void RenderTempAssets() {
     m_pPyramid->RenderMesh();
 
     // Rotating Cube
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pCube->m_model, true );
+    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pCube[0]->m_model, true );
     ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.ambient", 0.9f, 0.0f, 0.0f );
     ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.diffuse", 1.0f, 0.0f, 0.0f );
     ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.specular", 0.9f, 0.1f, 0.1f );
     ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 100.0f );
-    m_pCube->RenderMesh();
+    m_pCube[0]->RenderMesh();
 
     // Ground
     ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pGround->m_model, true );
@@ -217,10 +222,13 @@ void CleanTempAssets() {
         delete m_pPyramid;
         m_pPyramid = nullptr;
     }
-    if( m_pCube != nullptr ) {
-        m_pCube->Clean();
-        delete m_pCube;
-        m_pCube = nullptr;
+
+    for(int i = 0; i < TESTNUMBEROFCUBES; i++ ) {
+        if( m_pCube[i] != nullptr ) {
+            m_pCube[i]->Clean();
+            delete m_pCube[i];
+            m_pCube[i] = nullptr;
+        }
     }
     if( m_pGround != nullptr ) {
         m_pGround->Clean();

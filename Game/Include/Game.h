@@ -18,9 +18,15 @@
 struct GameConfig {
     const char *version = VERSION;
     const char *title = TITLE;
-    int width = RENDER_X_RESOLUTION;
-    int height = RENDER_Y_RESOLUTION;
-    bool fullscreen = FULL_SCREEN;
+    const int width = RENDER_X_RESOLUTION;
+    const int height = RENDER_Y_RESOLUTION;
+    const bool fullscreen = FULL_SCREEN;
 };
 
+struct CameraCOnfig {
+    const double fieldOfView = 90.0;
+    const double aspectRatio = double( RENDER_X_RESOLUTION ) / double( RENDER_Y_RESOLUTION );
+    const double nearClip = 0.1;
+    const double farClip = 500.0;
+};
 #endif
