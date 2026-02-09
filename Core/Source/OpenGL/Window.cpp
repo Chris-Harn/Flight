@@ -15,7 +15,7 @@ Window::Window() {
     m_xChange = 0.0f;
     m_yChange = 0.0f;
     m_bMouseFirstMove = true;
-    m_vSync = false;
+    m_vSync = true;
 
     // Clear all the keys
     for( int i = 0; i < TOTAL_KEYS; i++ ) {
@@ -118,7 +118,8 @@ void Window::CreateCallbacks() {
 }
 
 void Window::ClearColorBuffer() {
-    glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+    // glClearColor( 0.0f, 0.0f, 0.0f, 1.0f ); // Black
+    glClearColor( 135.0f / 255.0f, 206.0f / 255.0f, 235.0f / 255.0f, 1.0f ); // Sky color
     glClearDepth( 1.0f );
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }

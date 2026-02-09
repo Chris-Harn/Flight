@@ -16,6 +16,7 @@ public:
 
     glm::mat4 CalculateViewMatrix();
     glm::vec3 GetCameraPosition() { return m_position; }
+    void UpdateCameraYPosition( float newYPosition );
 
     glm::mat4 m_projection; // Camera Projection
 

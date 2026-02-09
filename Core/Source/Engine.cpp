@@ -6,7 +6,7 @@
 
 // Utilities
 #include "ModernLogger.h"
-#include "RandomGenerator.h"
+#include "CollisionDetection.h"
 
 // Future remove
 #include <glm/glm.hpp>
@@ -147,6 +147,8 @@ void Engine::HandleEvents() {
 
     m_pCamera->KeyControl( m_pMainWindow->GetsKeys(), m_pTimer->GetDeltaTime() );
     m_pCamera->MouseControl( m_pMainWindow->GetXChange(), m_pMainWindow->GetYChange() );
+
+    Collision::CameraCollidingWithGround( m_pCamera );
 
     UpdateTempAssets();
 }

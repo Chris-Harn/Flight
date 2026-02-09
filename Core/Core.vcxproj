@@ -96,6 +96,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\CollisionDetection.cpp" />
     <ClCompile Include="Source\RandomGenerator.cpp" />
     <ClCompile Include="Source\OpenGL\Helper.cpp" />
     <ClCompile Include="Source\OpenGL\Camera.cpp" />
@@ -114,6 +115,7 @@
     <ClCompile Include="Source\OpenGL\Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\CollisionDetection.h" />
     <ClInclude Include="Include\OpenGL\Helper.h" />
     <ClInclude Include="Include\OpenGL\Camera.h" />
     <ClInclude Include="Include\OpenGL\Framebuffer.h" />

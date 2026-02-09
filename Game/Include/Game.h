@@ -23,11 +23,4 @@ struct GameConfig {
     bool fullscreen = FULL_SCREEN;
 };
 
-//class Game {
-//public:
-//
-//private:
-//
-//};
-
 #endif

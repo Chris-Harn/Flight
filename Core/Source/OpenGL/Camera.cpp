@@ -98,3 +98,7 @@ void Camera::Update() {
     m_right = glm::normalize( glm::cross( m_front, m_worldUp ) );
     m_up = glm::normalize( glm::cross( m_right, m_front ) );
 }
+
+void Camera::UpdateCameraYPosition( float newYPosition ) { 
+    m_position.y = newYPosition; 
+}

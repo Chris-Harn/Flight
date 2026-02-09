@@ -4,9 +4,7 @@
 #include "Engine.h"
 #include "OpenGL/Mesh.h"
 #include "OpenGL/ResourceManager.h"
-#include "OpenGL/Terrain.h"
 #include "ModernLogger.h"
-#include "RandomGenerator.h"
 
 #include <GL/glew.h>
 #include <new>
@@ -17,9 +15,8 @@
 
 /* These are temporary functions and assets that will eventually be removed.*/
 /* Same with the assets being global. */
-Terrain *m_pTerrain;
 Mesh *m_pPyramid;
-Mesh *m_pWater;
+Mesh *m_pGround;
 Mesh *m_pCube;
 Mesh *m_pLight;
 
@@ -28,9 +25,8 @@ void UpdateTempAssets();
 void RenderTempAssets();
 
 bool SetupTempAssets() {
-    m_pWater = nullptr;
+    m_pGround = nullptr;
     m_pPyramid = nullptr;
-    m_pWater = nullptr;
     m_pCube = nullptr;
     m_pLight = nullptr;
 
@@ -142,27 +138,16 @@ bool SetupTempAssets() {
        -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
          1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f
     };
-    try { m_pWater = new Mesh(); }
+    try { m_pGround = new Mesh(); }
     catch( const std::bad_alloc &e ) {
         (void)e;
-        //print_error_message( "ERROR: MEMORY ALLOCATION: Water failed to allocate on heap." );
+        TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Ground failed to allocate on heap." );
         return false;
     }
-    m_pWater->CreateMesh( vertices3, 36 );
-    m_pWater->m_model = glm::mat4( 1.0f );
-    m_pWater->m_model = glm::translate( m_pWater->m_model, glm::vec3( 0.0f, -5.0f, 250.0f ) );
-    m_pWater->m_model = glm::scale( m_pWater->m_model, glm::vec3( 1000.0f, 1000.0f, 1000.0f ) );
-
-
-    unsigned char *dataUchar = TheRandomGenerator::Instance()->GenerateGridUChar( 128 );
-    float *dataf = TheRandomGenerator::Instance()->GenerateGridFloat( 128 );
-
-    try { m_pTerrain = new Terrain(); }
-    catch( const std::bad_alloc &e ) {
-        (void)e;
-        TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Terrain failed to allocate on heap." );
-        return false;
-    }
+    m_pGround->CreateMesh( vertices3, 36 );
+    m_pGround->m_model = glm::mat4( 1.0f );
+    m_pGround->m_model = glm::translate( m_pGround->m_model, glm::vec3( 0.0f, -5.0f, 250.0f ) );
+    m_pGround->m_model = glm::scale( m_pGround->m_model, glm::vec3( 1000.0f, 1000.0f, 1000.0f ) );
 
     return true;
 }
@@ -217,13 +202,13 @@ void RenderTempAssets() {
     ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 100.0f );
     m_pCube->RenderMesh();
 
-    // Water
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pWater->m_model, true );
+    // Ground
+    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pGround->m_model, true );
     ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.ambient", 0.0f, 0.2f, 0.5f );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.diffuse", 0.0f, 0.2f, 0.5f );
+    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.diffuse", 57.0f / 255.0f, 240 / 255.0f, 0.0f );
     ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.specular", 0.3f, 0.3f, 0.3f );
     ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 2.0f );
-    m_pWater->RenderMesh();
+    m_pGround->RenderMesh();
 }
 
 void CleanTempAssets() { 
@@ -237,10 +222,10 @@ void CleanTempAssets() {
         delete m_pCube;
         m_pCube = nullptr;
     }
-    if( m_pWater != nullptr ) {
-        m_pWater->Clean();
-        delete m_pWater;
-        m_pWater = nullptr;
+    if( m_pGround != nullptr ) {
+        m_pGround->Clean();
+        delete m_pGround;
+        m_pGround = nullptr;
     }
     if( m_pLight != nullptr ) {
         m_pLight->Clean();
