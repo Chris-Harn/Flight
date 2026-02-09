@@ -13,7 +13,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#define XDIMTESTCUBES 10
+#define XDIMTESTCUBES 40
 #define YDIMTESTCUBES 10
 #define ZDIMTESTCUBES 10
 
@@ -136,7 +136,6 @@ bool SetupTempAssets() {
 
                 m_pCube[i]->m_model = glm::mat4( 1.0f );
                 m_pCube[i]->m_model = glm::translate( m_pCube[i]->m_model, pos );
-                //m_pCube[i]->m_model = glm::translate( m_pCube[i]->m_model, glm::vec3( -70.0f + x * 3.0f, 0.1f + y * 2.0f, -20.0f + z * 2.0f ) );
                 m_pCube[i]->m_model = glm::scale( m_pCube[i]->m_model, glm::vec3( 2.0f ) );
             }
         }
@@ -188,12 +187,25 @@ void UpdateTempAssets() {
     m_pPyramid->m_model = glm::translate( m_pPyramid->m_model, glm::vec3( 1.0f, 1.0f, -1.5f ) );
     m_pPyramid->m_model = glm::rotate( m_pPyramid->m_model, angle * 0.1f, glm::vec3( 0.0f, 1.0f, 0.0f ) );
 
-    //for( int i = 0; i < XDIMTESTCUBES * YDIMTESTCUBES * ZDIMTESTCUBES; i++ ) {
-    //    m_pCube[i]->m_model = glm::mat4( 1.0f );
-    //    m_pCube[i]->m_model = glm::translate( m_pCube[i]->m_model, glm::vec3( -1.0f, 0.0f, -4.0f ) );
-    //    m_pCube[i]->m_model = glm::scale( m_pCube[i]->m_model, glm::vec3( 2.0f, 2.0f, 2.0f ) );
-    //    m_pCube[i]->m_model = glm::rotate( m_pCube[i]->m_model, angle * 0.5f, glm::vec3( 0.1f, -0.5f, 1.0f ) );
-    //}
+    for( int z = 0; z < ZDIMTESTCUBES; z++ ) {
+        for( int y = 0; y < YDIMTESTCUBES; y++ ) {
+            for( int x = 0; x < XDIMTESTCUBES; x++ ) {
+                int i = x + XDIMTESTCUBES * y + XDIMTESTCUBES * YDIMTESTCUBES * z;
+
+                glm::vec3 spacing( 3.0f, 3.0f, -3.0f );
+                glm::vec3 offset( -1.0f * XDIMTESTCUBES / 2.0f * 3.0f, 0.1f, -20.0f );
+
+                glm::vec3 pos = offset + glm::vec3( x * spacing.x,
+                    y * spacing.y,
+                    z * spacing.z );
+
+                m_pCube[i]->m_model = glm::mat4( 1.0f );
+                m_pCube[i]->m_model = glm::translate( m_pCube[i]->m_model, pos );
+                m_pCube[i]->m_model = glm::scale( m_pCube[i]->m_model, glm::vec3( 2.0f ) );
+                m_pCube[i]->m_model = glm::rotate( m_pCube[i]->m_model, angle * 0.5f, glm::vec3( 0.1f, -0.5f, 1.0f ) );
+            }
+        }
+    }
 
     angle += 0.05f / 3.141565f * TheEngine::Instance()->m_pTimer->GetDeltaTime();
     if( angle >= 360.0f ) angle = 0.0f;
