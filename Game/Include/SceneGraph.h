@@ -13,14 +13,16 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#define TESTNUMBEROFCUBES 100000
+#define XDIMTESTCUBES 10
+#define YDIMTESTCUBES 10
+#define ZDIMTESTCUBES 10
 
 /* These are temporary functions and assets that will eventually be removed.*/
 /* Same with the assets being global. */
 Mesh *m_pPyramid;
 Mesh *m_pGround;
 Mesh *m_pLight;
-Mesh *m_pCube[TESTNUMBEROFCUBES];
+Mesh *m_pCube[XDIMTESTCUBES * YDIMTESTCUBES * ZDIMTESTCUBES];
 
 bool SetupTempAssets();
 void UpdateTempAssets();
@@ -31,40 +33,117 @@ bool SetupTempAssets() {
     m_pPyramid = nullptr;
     m_pLight = nullptr;
 
-    for( int i = 0; i < TESTNUMBEROFCUBES; i++ ) {
+    for( int i = 0; i < XDIMTESTCUBES * YDIMTESTCUBES * ZDIMTESTCUBES; i++ ) {
         m_pCube[i] = nullptr;
+    }
+
+    // Create a pyramid so we have normals to check against
+    GLfloat vertices[] = {
+        // vec3 Bottom Left Square, vec3 normals
+        -1.0f,  0.0f,  0.0f,  0.0f, -1.0f,  0.0f,
+        0.0f,  0.0f, -1.0f,  0.0f, -1.0f,  0.0f,
+        0.0f,  0.0f,  1.0f,  0.0f, -1.0f,  0.0f,
+        // Bottom Right Square
+        0.0f,  0.0f, -1.0f,  0.0f, -1.0f,  0.0f,
+        1.0f,  0.0f,  0.0f,  0.0f, -1.0f,  0.0f,
+        0.0f,  0.0f,  1.0f,  0.0f, -1.0f,  0.0f,
+        // Slope 1
+        0.0f,  1.0f,  0.0f,  -0.57f, 0.57f, 0.57f,
+        -1.0f,  0.0f,  0.0f,  -0.57f, 0.57f, 0.57f,
+        0.0f,  0.0f,  1.0f,  -0.55f, 0.57f, 0.57f,
+        // Slope 2
+        0.0f,  1.0f,  0.0f,  -0.57f, 0.57f, -0.57f,
+        0.0f,  0.0f, -1.0f,  -0.57f, 0.57f, -0.57f,
+        -1.0f,  0.0f,  0.0f,  -0.57f, 0.57f, -0.57f,
+        // Slope 3
+        0.0f,  1.0f,  0.0f,  0.57f, 0.57f, -0.57f,
+        1.0f,  0.0f,  0.0f,  0.57f, 0.57f, -0.57f,
+        0.0f,  0.0f, -1.0f,  0.57f, 0.57f, -0.57f,
+        // Slope 4
+        0.0f,  1.0f,  0.0f,  0.57f, 0.57f, 0.57f,
+        0.0f,  0.0f,  1.0f,  0.57f, 0.57f, 0.57f,
+        1.0f,  0.0f,  0.0f,  0.57f, 0.57f, 0.57f,
+    };
+
+    // Create cubes to test engine and lighting
+    float vertices2[] = {
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f
+    };
+
+    // Ground
+    float vertices3[]{
+        -1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+        -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+         1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+         1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+        -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+         1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f
+    };
+
+    for( int z = 0; z < ZDIMTESTCUBES; z++ ) {
+        for( int y = 0; y < YDIMTESTCUBES; y++ ) {
+            for( int x = 0; x < XDIMTESTCUBES; x++ ) {
+                int i = x + XDIMTESTCUBES * y + XDIMTESTCUBES * YDIMTESTCUBES * z;
+                m_pCube[i] = new Mesh();
+                m_pCube[i]->CreateMesh( vertices2, 216 );
+
+                glm::vec3 spacing( 3.0f, 3.0f, -3.0f );
+                glm::vec3 offset( -1.0f * XDIMTESTCUBES / 2.0f * 3.0f, 0.1f, -20.0f );
+
+                glm::vec3 pos = offset + glm::vec3( x * spacing.x,
+                                                    y * spacing.y,
+                                                    z * spacing.z );
+
+                m_pCube[i]->m_model = glm::mat4( 1.0f );
+                m_pCube[i]->m_model = glm::translate( m_pCube[i]->m_model, pos );
+                //m_pCube[i]->m_model = glm::translate( m_pCube[i]->m_model, glm::vec3( -70.0f + x * 3.0f, 0.1f + y * 2.0f, -20.0f + z * 2.0f ) );
+                m_pCube[i]->m_model = glm::scale( m_pCube[i]->m_model, glm::vec3( 2.0f ) );
+            }
+        }
     }
 
     ResourceManager::LoadShader( "Resource/Shaders/Light.glsl", "Light" ); // Light
     ResourceManager::LoadShader( "Resource/Shaders/SimpleLight.glsl", "SimpleLight" ); // Phong Lighting = Diffuse + Ambient + Specular
-
-    // Create a pyramid so we have normals to check against.
-    GLfloat vertices[] = {
-        // vec3 Bottom Left Square, vec3 normals
-        -1.0f,  0.0f,  0.0f,  0.0f, -1.0f,  0.0f,
-         0.0f,  0.0f, -1.0f,  0.0f, -1.0f,  0.0f,
-         0.0f,  0.0f,  1.0f,  0.0f, -1.0f,  0.0f,
-         // Bottom Right Square
-          0.0f,  0.0f, -1.0f,  0.0f, -1.0f,  0.0f,
-          1.0f,  0.0f,  0.0f,  0.0f, -1.0f,  0.0f,
-          0.0f,  0.0f,  1.0f,  0.0f, -1.0f,  0.0f,
-          // Slope 1
-           0.0f,  1.0f,  0.0f,  -0.57f, 0.57f, 0.57f,
-          -1.0f,  0.0f,  0.0f,  -0.57f, 0.57f, 0.57f,
-           0.0f,  0.0f,  1.0f,  -0.55f, 0.57f, 0.57f,
-           // Slope 2
-            0.0f,  1.0f,  0.0f,  -0.57f, 0.57f, -0.57f,
-            0.0f,  0.0f, -1.0f,  -0.57f, 0.57f, -0.57f,
-           -1.0f,  0.0f,  0.0f,  -0.57f, 0.57f, -0.57f,
-           // Slope 3
-            0.0f,  1.0f,  0.0f,  0.57f, 0.57f, -0.57f,
-            1.0f,  0.0f,  0.0f,  0.57f, 0.57f, -0.57f,
-            0.0f,  0.0f, -1.0f,  0.57f, 0.57f, -0.57f,
-            // Slope 4
-             0.0f,  1.0f,  0.0f,  0.57f, 0.57f, 0.57f,
-             0.0f,  0.0f,  1.0f,  0.57f, 0.57f, 0.57f,
-             1.0f,  0.0f,  0.0f,  0.57f, 0.57f, 0.57f,
-    };
 
     try { m_pPyramid = new Mesh(); }
     catch( const std::bad_alloc &e ) {
@@ -76,57 +155,6 @@ bool SetupTempAssets() {
     m_pPyramid->m_model = glm::mat4( 1.0f );
     m_pPyramid->m_model = glm::translate( m_pPyramid->m_model, glm::vec3( 1.0f, 1.0f, -1.5f ) );
 
-    float vertices2[] = {
-         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-
-        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-
-         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-
-        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-
-         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f
-    };
-    try { m_pCube[0] = new Mesh(); }
-    catch( const std::bad_alloc &e ) {
-        (void)e;
-        TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Cube failed to allocate on heap." );
-        return false;
-    }
-    m_pCube[0]->CreateMesh( vertices2, 216 );
-
     try { m_pLight = new Mesh(); }
     catch( const std::bad_alloc &e ) {
         (void)e;
@@ -134,15 +162,10 @@ bool SetupTempAssets() {
         return false;
     }
     m_pLight->CreateMesh( vertices2, 216 );
+    m_pLight->m_model = glm::mat4( 1.0f );
+    m_pLight->m_model = glm::translate( m_pLight->m_model, glm::vec3( 60.0f, 50.0f, -5.0f ) );
+    m_pLight->m_model = glm::scale( m_pLight->m_model, glm::vec3( 10.0f, 10.0f, 10.0f ) );
 
-    float vertices3[]{
-        -1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-        -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-         1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-         1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-       -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-         1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f
-    };
     try { m_pGround = new Mesh(); }
     catch( const std::bad_alloc &e ) {
         (void)e;
@@ -160,14 +183,19 @@ bool SetupTempAssets() {
 void UpdateTempAssets() {
     // Update Objects
     static float angle = 360.0f / 3.141565f;
-    m_pCube[0]->m_model = glm::mat4( 1.0f );
-    m_pCube[0]->m_model = glm::translate( m_pCube[0]->m_model, glm::vec3( -1.0f, 0.0f, -4.0f ) );
-    m_pCube[0]->m_model = glm::scale( m_pCube[0]->m_model, glm::vec3( 2.0f, 2.0f, 2.0f ) );
-    m_pCube[0]->m_model = glm::rotate( m_pCube[0]->m_model, angle * 0.5f, glm::vec3( 0.1f, -0.5f, 1.0f ) );
+    
     m_pPyramid->m_model = glm::mat4( 1.0f );
     m_pPyramid->m_model = glm::translate( m_pPyramid->m_model, glm::vec3( 1.0f, 1.0f, -1.5f ) );
     m_pPyramid->m_model = glm::rotate( m_pPyramid->m_model, angle * 0.1f, glm::vec3( 0.0f, 1.0f, 0.0f ) );
-    angle += 0.005f / 3.141565f * TheEngine::Instance()->m_pTimer->GetDeltaTime();
+
+    //for( int i = 0; i < XDIMTESTCUBES * YDIMTESTCUBES * ZDIMTESTCUBES; i++ ) {
+    //    m_pCube[i]->m_model = glm::mat4( 1.0f );
+    //    m_pCube[i]->m_model = glm::translate( m_pCube[i]->m_model, glm::vec3( -1.0f, 0.0f, -4.0f ) );
+    //    m_pCube[i]->m_model = glm::scale( m_pCube[i]->m_model, glm::vec3( 2.0f, 2.0f, 2.0f ) );
+    //    m_pCube[i]->m_model = glm::rotate( m_pCube[i]->m_model, angle * 0.5f, glm::vec3( 0.1f, -0.5f, 1.0f ) );
+    //}
+
+    angle += 0.05f / 3.141565f * TheEngine::Instance()->m_pTimer->GetDeltaTime();
     if( angle >= 360.0f ) angle = 0.0f;
 }
 
@@ -175,9 +203,6 @@ void RenderTempAssets() {
     // Light - NOTE: Do light first so can give position to other objects
     ResourceManager::GetShader( "Light" )->SetMat4( "u_projection", TheEngine::Instance()->m_pCamera->m_projection, true );
     ResourceManager::GetShader( "Light" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix() );
-    m_pLight->m_model = glm::mat4( 1.0f );
-    m_pLight->m_model = glm::translate( m_pLight->m_model, glm::vec3( 12.5f, 50.0f, 75.0f ) );
-    m_pLight->m_model = glm::scale( m_pLight->m_model, glm::vec3( 10.0f, 10.0f, 10.0f ) );
     ResourceManager::GetShader( "Light" )->SetMat4( "u_model", m_pLight->m_model );
     ResourceManager::GetShader( "Light" )->SetVec3( "u_lightColor", 1.0f, 1.0f, 1.0f );
     m_pLight->RenderMesh();
@@ -199,13 +224,16 @@ void RenderTempAssets() {
     ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 32.0f );
     m_pPyramid->RenderMesh();
 
-    // Rotating Cube
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pCube[0]->m_model, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.ambient", 0.9f, 0.0f, 0.0f );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.diffuse", 1.0f, 0.0f, 0.0f );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.specular", 0.9f, 0.1f, 0.1f );
-    ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 100.0f );
-    m_pCube[0]->RenderMesh();
+    // Test Cubes
+    for( int i = 0; i < XDIMTESTCUBES * YDIMTESTCUBES * ZDIMTESTCUBES; i++ ) {
+        ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pCube[i]->m_model, true );
+        ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.ambient", 0.9f, 0.0f, 0.0f );
+        ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.diffuse", 1.0f, 0.0f, 0.0f );
+        ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.specular", 0.9f, 0.1f, 0.1f );
+        ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 100.0f );
+        m_pCube[i]->RenderMesh();
+    }
+
 
     // Ground
     ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", m_pGround->m_model, true );
@@ -223,7 +251,8 @@ void CleanTempAssets() {
         m_pPyramid = nullptr;
     }
 
-    for(int i = 0; i < TESTNUMBEROFCUBES; i++ ) {
+    for(int i = 0; i < XDIMTESTCUBES; i++ ) {
+    //for( int i = 0; i < XDIMTESTCUBES; i++ ) {
         if( m_pCube[i] != nullptr ) {
             m_pCube[i]->Clean();
             delete m_pCube[i];

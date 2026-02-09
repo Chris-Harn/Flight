@@ -50,7 +50,7 @@ bool Engine::Init() {
         TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Camera failed to allocate on heap." );
         return false;
     }
-    m_pCamera->m_projection = glm::perspective( glm::radians(90.0f), m_pMainWindow->GetBufferWidth() / m_pMainWindow->GetBufferHeight(), 0.1f, 500.0f );
+    m_pCamera->m_projection = glm::perspective( glm::radians(60.0f), m_pMainWindow->GetBufferWidth() / m_pMainWindow->GetBufferHeight(), 0.1f, 1000.0f );
 
     // Load Shaders, framebuffers, and other resources... 
     ResourceManager::LoadShader( "Resource/Shaders/CautionStrips.glsl", "CautionImage" ); // 0. Shader compile error
@@ -148,7 +148,7 @@ void Engine::HandleEvents() {
     m_pCamera->KeyControl( m_pMainWindow->GetsKeys(), m_pTimer->GetDeltaTime() );
     m_pCamera->MouseControl( m_pMainWindow->GetXChange(), m_pMainWindow->GetYChange() );
 
-    Collision::CameraCollidingWithGround( m_pCamera );
+    //Collision::CameraCollidingWithGround( m_pCamera );
 
     UpdateTempAssets();
 }
