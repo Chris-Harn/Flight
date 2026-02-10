@@ -3,6 +3,7 @@
 
 #include "Engine.h"
 #include "OpenGL/Mesh.h"
+#include "OpenGL/Texture.h"
 #include "OpenGL/ResourceManager.h"
 #include "ModernLogger.h"
 
@@ -14,8 +15,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #define XDIMTESTCUBES 40
-#define YDIMTESTCUBES 10
-#define ZDIMTESTCUBES 10
+#define YDIMTESTCUBES 40
+#define ZDIMTESTCUBES 40
 
 /* These are temporary functions and assets that will eventually be removed.*/
 /* Same with the assets being global. */

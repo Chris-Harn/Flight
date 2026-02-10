@@ -7,7 +7,9 @@ public:
     ~Texture();
 
     void Generate( unsigned int width, unsigned int height, float *data );
+    void LoadTexture( const char *fileLocation );
     void Bind( unsigned int slot = 0 ) const;
+    void Unbind( unsigned int slot = 0 ) const;
     void Clean();
 
 public:
@@ -19,6 +21,9 @@ public:
     unsigned int m_wrapT;
     unsigned int m_filterMin;
     unsigned int m_filterMax;
+
+    int m_imageWidth, m_imageHeight;
+    int m_imageBitDepth;
 };
 
 #endif
