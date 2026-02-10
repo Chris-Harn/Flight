@@ -39,7 +39,7 @@ void Texture::LoadTexture( const char *fileLocation ) {
         return;
     }
 
-    TheMLogger::Instance()->Info( "Texture {} is {} by {} at {} bit depth.", fileLocation, m_imageWidth, m_imageHeight, m_imageBitDepth );
+    TheMLogger::Instance()->Info( "Loaded texture {}. It's {} by {} at {} bit depth.", fileLocation, m_imageWidth, m_imageHeight, m_imageBitDepth );
 
     glGenTextures( 1, &m_textureID );
     glActiveTexture( GL_TEXTURE0 );
