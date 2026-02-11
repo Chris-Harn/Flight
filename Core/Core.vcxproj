@@ -137,7 +137,7 @@
     <None Include="Resource\Shaders\CautionStrips.glsl" />
     <None Include="Resource\Shaders\FastBlitTextToScreen.glsl" />
     <None Include="Resource\Shaders\Light.glsl" />
-    <None Include="Resource\Shaders\SimpleLight.glsl" />
+    <None Include="Resource\Shaders\PhongLighting.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

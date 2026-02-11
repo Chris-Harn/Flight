@@ -14,6 +14,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Meshes.h"
+
 #define XDIMTESTCUBES 40
 #define YDIMTESTCUBES 40
 #define ZDIMTESTCUBES 40
@@ -30,6 +32,7 @@ Texture *g_pContainerSpecular;
 bool SetupTempAssets();
 void UpdateTempAssets();
 void RenderTempAssets();
+void CleanTempAssets();
 
 bool SetupTempAssets() {
     g_pGround = nullptr;
@@ -39,89 +42,6 @@ bool SetupTempAssets() {
     for( int i = 0; i < XDIMTESTCUBES * YDIMTESTCUBES * ZDIMTESTCUBES; i++ ) {
         g_pCube[i] = nullptr;
     }
-
-    // Create a pyramid so we have normals to check against
-    GLfloat vertices[] = {
-        // vec3 Bottom Left Square, vec3 normals
-        -1.0f,  0.0f,  0.0f,  0.0f, -1.0f,  0.0f,
-        0.0f,  0.0f, -1.0f,  0.0f, -1.0f,  0.0f,
-        0.0f,  0.0f,  1.0f,  0.0f, -1.0f,  0.0f,
-        // Bottom Right Square
-        0.0f,  0.0f, -1.0f,  0.0f, -1.0f,  0.0f,
-        1.0f,  0.0f,  0.0f,  0.0f, -1.0f,  0.0f,
-        0.0f,  0.0f,  1.0f,  0.0f, -1.0f,  0.0f,
-        // Slope 1
-        0.0f,  1.0f,  0.0f,  -0.57f, 0.57f, 0.57f,
-        -1.0f,  0.0f,  0.0f,  -0.57f, 0.57f, 0.57f,
-        0.0f,  0.0f,  1.0f,  -0.55f, 0.57f, 0.57f,
-        // Slope 2
-        0.0f,  1.0f,  0.0f,  -0.57f, 0.57f, -0.57f,
-        0.0f,  0.0f, -1.0f,  -0.57f, 0.57f, -0.57f,
-        -1.0f,  0.0f,  0.0f,  -0.57f, 0.57f, -0.57f,
-        // Slope 3
-        0.0f,  1.0f,  0.0f,  0.57f, 0.57f, -0.57f,
-        1.0f,  0.0f,  0.0f,  0.57f, 0.57f, -0.57f,
-        0.0f,  0.0f, -1.0f,  0.57f, 0.57f, -0.57f,
-        // Slope 4
-        0.0f,  1.0f,  0.0f,  0.57f, 0.57f, 0.57f,
-        0.0f,  0.0f,  1.0f,  0.57f, 0.57f, 0.57f,
-        1.0f,  0.0f,  0.0f,  0.57f, 0.57f, 0.57f,
-    };
-
-    // Create cubes to test engine and lighting
-    float vertices2[] = {
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-     0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f
-    };
-
-    // Ground
-    float vertices3[]{
-        -1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-        -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-         1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-         1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-        -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-         1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f
-    };
 
     for( int z = 0; z < ZDIMTESTCUBES; z++ ) {
         for( int y = 0; y < YDIMTESTCUBES; y++ ) {
@@ -150,7 +70,7 @@ bool SetupTempAssets() {
     g_pContainerSpecular->LoadTexture( "Resource/Textures/container2_specular.png" );
 
     ResourceManager::LoadShader( "Resource/Shaders/Light.glsl", "Light" ); // Light
-    ResourceManager::LoadShader( "Resource/Shaders/SimpleLight.glsl", "SimpleLight" ); // Phong Lighting = Diffuse + Ambient + Specular
+    ResourceManager::LoadShader( "Resource/Shaders/PhongLighting.glsl", "PhongLighting" ); // Phong Lighting = Diffuse + Ambient + Specular
 
     try { g_pPyramid = new Mesh(); }
     catch( const std::bad_alloc &e ) {
@@ -228,39 +148,39 @@ void RenderTempAssets() {
     g_pLight->RenderMesh();
 
     // Set once and let be used the entire frame...
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_projection", TheEngine::Instance()->m_pCamera->m_projection, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix() );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_viewPos", TheEngine::Instance()->m_pCamera->GetCameraPosition() );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_light.position", glm::vec3( g_pLight->m_model[3] ) );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_light.ambient", 0.2f, 0.2f, 0.2f );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_light.diffuse", 1.0f, 1.0f, 1.0f );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_light.specular", 1.0f, 1.0f, 1.0f );
+    ResourceManager::GetShader( "PhongLighting" )->SetMat4( "u_projection", TheEngine::Instance()->m_pCamera->m_projection, true );
+    ResourceManager::GetShader( "PhongLighting" )->SetMat4( "u_view", TheEngine::Instance()->m_pCamera->CalculateViewMatrix() );
+    ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_viewPos", TheEngine::Instance()->m_pCamera->GetCameraPosition() );
+    ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_light.position", glm::vec3( g_pLight->m_model[3] ) );
+    ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_light.ambient", 0.2f, 0.2f, 0.2f );
+    ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_light.diffuse", 1.0f, 1.0f, 1.0f );
+    ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_light.specular", 1.0f, 1.0f, 1.0f );
 
     // Pyramid
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", g_pPyramid->m_model, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.ambient", 1.0f, 0.5f, 0.31f );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.diffuse", 1.0f, 0.5f, 0.31f );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.specular", 0.5f, 0.5f, 0.5f );
-    ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 32.0f );
+    ResourceManager::GetShader( "PhongLighting" )->SetMat4( "u_model", g_pPyramid->m_model, true );
+    ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_material.ambient", 1.0f, 0.5f, 0.31f );
+    ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_material.diffuse", 1.0f, 0.5f, 0.31f );
+    ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_material.specular", 0.5f, 0.5f, 0.5f );
+    ResourceManager::GetShader( "PhongLighting" )->SetFloat( "u_material.shininess", 32.0f );
     g_pPyramid->RenderMesh();
 
     // Test Cubes
     for( int i = 0; i < XDIMTESTCUBES * YDIMTESTCUBES * ZDIMTESTCUBES; i++ ) {
-        ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", g_pCube[i]->m_model, true );
-        ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.ambient", 0.9f, 0.0f, 0.0f );
-        ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.diffuse", 1.0f, 0.0f, 0.0f );
-        ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.specular", 0.9f, 0.1f, 0.1f );
-        ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 100.0f );
+        ResourceManager::GetShader( "PhongLighting" )->SetMat4( "u_model", g_pCube[i]->m_model, true );
+        ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_material.ambient", 0.9f, 0.0f, 0.0f );
+        ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_material.diffuse", 1.0f, 0.0f, 0.0f );
+        ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_material.specular", 0.9f, 0.1f, 0.1f );
+        ResourceManager::GetShader( "PhongLighting" )->SetFloat( "u_material.shininess", 100.0f );
         g_pCube[i]->RenderMesh();
     }
 
 
     // Ground
-    ResourceManager::GetShader( "SimpleLight" )->SetMat4( "u_model", g_pGround->m_model, true );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.ambient", 0.0f, 0.2f, 0.5f );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.diffuse", 57.0f / 255.0f, 240 / 255.0f, 0.0f );
-    ResourceManager::GetShader( "SimpleLight" )->SetVec3( "u_material.specular", 0.3f, 0.3f, 0.3f );
-    ResourceManager::GetShader( "SimpleLight" )->SetFloat( "u_material.shininess", 2.0f );
+    ResourceManager::GetShader( "PhongLighting" )->SetMat4( "u_model", g_pGround->m_model, true );
+    ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_material.ambient", 0.0f, 0.2f, 0.5f );
+    ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_material.diffuse", 57.0f / 255.0f, 240 / 255.0f, 0.0f );
+    ResourceManager::GetShader( "PhongLighting" )->SetVec3( "u_material.specular", 0.3f, 0.3f, 0.3f );
+    ResourceManager::GetShader( "PhongLighting" )->SetFloat( "u_material.shininess", 2.0f );
     g_pGround->RenderMesh();
 }
 
