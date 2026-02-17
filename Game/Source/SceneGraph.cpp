@@ -42,7 +42,7 @@ bool SetupTempAssets() {
             for( int x = 0; x < XDIMTESTCUBES; x++ ) {
                 int i = x + XDIMTESTCUBES * y + XDIMTESTCUBES * YDIMTESTCUBES * z;
                 g_pCube[i] = new Mesh();
-                g_pCube[i]->CreateMesh( vertices2, 216 );
+                g_pCube[i]->CreateMesh( vertices2, sizeof( vertices2 ) / sizeof( vertices2[0] ) );
 
                 glm::vec3 spacing( 3.0f, 3.0f, -3.0f );
                 glm::vec3 offset( -1.0f * XDIMTESTCUBES / 2.0f * 3.0f, 0.1f, -20.0f );
@@ -72,7 +72,7 @@ bool SetupTempAssets() {
         TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Pyramid failed to allocate on heap." );
         return false;
     }
-    g_pPyramid->CreateMesh( vertices, 108 );
+    g_pPyramid->CreateMesh( vertices, sizeof( vertices ) / sizeof( vertices[0] ) );
     g_pPyramid->m_model = glm::mat4( 1.0f );
     g_pPyramid->m_model = glm::translate( g_pPyramid->m_model, glm::vec3( 1.0f, 1.0f, -1.5f ) );
 
@@ -82,7 +82,7 @@ bool SetupTempAssets() {
         TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Light failed to allocate on heap." );
         return false;
     }
-    g_pLight->CreateMesh( vertices2, 216 );
+    g_pLight->CreateMesh( vertices2, sizeof( vertices2 ) / sizeof( vertices2[0] ) );
     g_pLight->m_model = glm::mat4( 1.0f );
     g_pLight->m_model = glm::translate( g_pLight->m_model, glm::vec3( 60.0f, 50.0f, -5.0f ) );
     g_pLight->m_model = glm::scale( g_pLight->m_model, glm::vec3( 10.0f, 10.0f, 10.0f ) );
@@ -93,7 +93,7 @@ bool SetupTempAssets() {
         TheMLogger::Instance()->Error( "ERROR: MEMORY ALLOCATION: Ground failed to allocate on heap." );
         return false;
     }
-    g_pGround->CreateMesh( vertices3, 36 );
+    g_pGround->CreateMesh( vertices3, sizeof( vertices3 ) / sizeof( vertices3[0] ) );
     g_pGround->m_model = glm::mat4( 1.0f );
     g_pGround->m_model = glm::translate( g_pGround->m_model, glm::vec3( 0.0f, -5.0f, 250.0f ) );
     g_pGround->m_model = glm::scale( g_pGround->m_model, glm::vec3( 1000.0f, 1000.0f, 1000.0f ) );

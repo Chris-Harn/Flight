@@ -99,8 +99,12 @@ bool Window::Initialization( GameConfig *config ) {
     // Setup camera for depth buffering
     glEnable( GL_DEPTH_TEST );
     glDepthMask( GL_TRUE );
-    glDepthFunc( GL_LEQUAL );    
+    glDepthFunc( GL_LEQUAL );
     glDepthRange( 0.0f, 1.0f );
+
+    // Hide backfaces of triangles
+    glEnable( GL_CULL_FACE );
+    glCullFace( GL_FRONT );
 
     return true;
 }
